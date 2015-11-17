@@ -1,6 +1,6 @@
-class Prs < ActiveRecord::Base
+class TeePrs < ActiveRecord::Base
   unloadable
   belongs_to :project 
   belongs_to :role
-  belongs_to :status
+  belongs_to :statuses
 end

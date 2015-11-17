@@ -11,9 +11,9 @@ module TEE
       base.class_eval do
         unloadable # Send unloadable so it will be reloaded in development
 
-        has_many :prss
-        has_many :roles, :through => :prss
-        has_many :status, :through => :prss, :class_name => 'IssueStatus', :foreign_key => :status_id
+        has_many :tee_prss
+        has_many :roles, :through => :tee_prss
+        has_many :statuses, :through => :tee_prss, :class_name => 'IssueStatus', :foreign_key => :status_id
       end
     end
 
