@@ -1,0 +1,27 @@
+es:
+    text_edit: "Editar"
+
+    text_profile: "Perfil"
+    text_status: "Estado"
+    text_status_p: "Estados"
+    text_calendar: "Calendario"
+    text_calendar_p: "Calendarios"
+    start_status: "Estado inicio"
+    start_status_p: "Estados inicio"
+    end_status: "Estado final"
+    end_status_p: "Estados final"
+    start_date: "Fecha inicio"
+    end_date: "Fecha fin"
+    text_link_add: "Nuevo calendario"
+
+    calendar:
+        text_start_time: "Hora de inicio"
+        text_end_time: "Hora de fin "
+        text_workable: "Laborable"
+        text_monday: "Lunes"
+        text_tuesday: "Martes"
+        text_wednesday: "Miercoles"
+        text_thrusday: "Jueves"
+        text_friday: "Viernes"
+        text_saturday: "Sabado"
+        text_sunday: "Domingo"
