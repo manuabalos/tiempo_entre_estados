@@ -1,0 +1,55 @@
+
+  <b><%= l(:text_status_p) %></b>
+
+  <table class="list">
+   <thead>
+    <tr>
+       <th><%= l(:text_profile)%></th>
+       <th><%= l(:start_status)%></th>
+       <th><%= l(:end_status)%></th>
+       <th>Permisos</th>
+    </tr>
+   </thead>
+   <tbody>
+   	<% @users.each do |user| %>
+  	  <tr>
+  	     <td><%= user.login %></td>
+  	     <td>Est.Inicio</td>
+  	     <td>Est.Fin</td>
+  	     <td><span class="icon icon-edit"><%= link_to l(:text_edit), :controller => :time_statuses, :action => :profilestatuses, :user_id => user.id %></td>
+  	  </tr>
+    	<% end %>
+   </tbody>
+  </table>
+
+
+
+  <b><%= l(:text_calendar_p) %></b> 
+    <div class="contextual">
+      <span class="icon icon-add"><%= link_to l(:text_link_add), :controller => :time_statuses, :action => :createcalendar %>
+    </div>
+
+  <table class="list">
+   <thead>
+    <tr>
+       <th><%= l(:start_date) %></th>
+       <th><%= l(:end_date) %></th>
+       <th><%= l(:text_profile) %></th>
+       <th>Permisos</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+       <td>-</td>
+       <td>-</td>
+       <td>Todos</td>
+       <td><span class="icon icon-edit"> Editar</td>
+    </tr>
+    <tr>
+       <td>20/12/2015</td>
+       <td>07/01/2016</td>
+       <td>Perfil 1, Perfil 2</td>
+       <td><span class="icon icon-edit"> Editar</td>
+    </tr>
+   </tbody>
+  </table>

@@ -1,0 +1,27 @@
+# English strings go here for Rails i18n
+en:
+    text_edit: "Edit"
+
+    text_profile: "Profile"
+    text_status: "Status"
+    text_status_p: "Statuses"
+    text_calendar: "Calendar"
+    text_calendar_p: "Calendars"
+    start_status: "Start status"
+    start_status_p: "Start statuses"
+    end_status: "End status"
+    end_status_p: "End statuses"
+    start_date: "Start date"
+    end_date: "End date"
+    link_text_add: "New calendar"
+    calendar:
+        text_start_time: "Start time"
+        text_end_time: "End time"
+        text_workable: "Workable"
+        text_monday: "Monday"
+        text_tuesday: "Tuesday"
+        text_wednesday: "Wednesday"
+        text_thrusday: "Thrusday"
+        text_friday: "Friday"
+        text_saturday: "Saturday"
+        text_sunday: "Sunday"

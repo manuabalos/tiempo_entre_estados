@@ -1,0 +1,81 @@
+<h4> <%= l(:"text_calendar") %></h4>
+<!-- Hay que modificar la referencia del formulario -->
+<div class="splitcontent">
+	<%= form_for :issue do |f| %>
+	<div class="splitcontentleft">
+			<p id="start_date_area">
+			  <%= f.label "Fecha inicio: " %>	
+			  <%= f.text_field(:start_date, :size => 10) %>
+			  <%= calendar_for('issue_start_date') %>
+			</p>
+			<p id="start_due_area">
+			  <%= f.label "Fecha fin: " %>	
+			  <%= f.text_field(:due_date, :size => 10) %>
+			  <%= calendar_for('issue_due_date') %>
+			</p>
+	</div>
+
+	<div class="splitcontentright">
+		<p><%=l(:text_profile)+": "%>
+		<%= select_tag 'user_id', options_for_select(@users), {:multiple => true} %>
+		<p>
+	</div>
+
+	<table class="list">
+	 <thead>
+	  <tr>
+	     <th></th>
+	     <th><%= l(:"calendar.text_start_time") %></th>
+	     <th><%= l(:"calendar.text_end_time") %></th>
+	     <th><%= l(:"calendar.text_workable") %></th>
+	  </tr>
+	 </thead>
+	 <tbody>
+		  <tr>
+		     <td><%=l(:"calendar.text_monday")%></td>
+		     <td><%= select_time(Time.now, :include_seconds => false) %>: <%= select_minute(0) %></td>
+		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= f.check_box "", checked: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_tuesday")%></td>
+		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
+		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= f.check_box "", checked: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_wednesday")%></td>
+		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
+		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= f.check_box "", checked: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_thrusday")%></td>
+		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
+		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= f.check_box "", checked: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_friday")%></td>
+		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
+		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= f.check_box "", checked: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_saturday")%></td>
+		     <td><%= f.text_field :start_date, :size => 10, disabled: true %></td>
+		     <td><%= f.text_field :due_date, :size => 10, disabled: true  %></td>
+		     <td><%= f.check_box "", disabled: true%></td>
+		  </tr>
+		  <tr>
+		     <td><%=l(:"calendar.text_sunday")%></td>
+		     <td><%= f.text_field :start_date, :size => 10, disabled: true %></td>
+		     <td><%= f.text_field :due_date, :size => 10, disabled: true  %></td>
+		     <td><%= f.check_box "", disabled: true%></td>
+		  </tr>
+	 </tbody>
+	</table>
+
+	<%= f.submit "Guardar" %>
+	<% end %>
+</div>
