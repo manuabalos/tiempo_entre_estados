@@ -1,24 +1,31 @@
 
-  <b><%= l(:text_status_p) %></b>
+  <h2><%= l(:text_status_p) %></h2>
 
   <table class="list">
    <thead>
     <tr>
-       <th><%= l(:text_profile)%></th>
-       <th><%= l(:start_status)%></th>
-       <th><%= l(:end_status)%></th>
+       <th><%= l(:text_rol) %></th>
+       <th><%= l(:start_status) %></th>
+       <th><%= l(:pause_status) %></th>
+       <th><%= l(:end_status) %></th>
        <th>Permisos</th>
     </tr>
    </thead>
    <tbody>
-   	<% @users.each do |user| %>
-  	  <tr>
-  	     <td><%= user.login %></td>
-  	     <td>Est.Inicio</td>
-  	     <td>Est.Fin</td>
-  	     <td><span class="icon icon-edit"><%= link_to l(:text_edit), :controller => :tee_prs, :action => :index, :user_id => user.id %></td>
-  	  </tr>
-    	<% end %>
+   	<%# @roles.each do |rol| %>
+  	  
+      <% @result.each do |role, status| %>
+        <tr class="<%= cycle("odd", "even") %>">
+         <td><%= role %></td>
+  	     <td><%= status[:start].join(', ') %></td>
+         <td><%= status[:pause].join(', ') %></td>
+         <td><%= status[:close].join(', ') %></td>
+
+         
+         <td><span class="icon icon-edit"><%= link_to l(:text_edit), :controller => :tee_prs, :action => :index %></td>
+        </tr>
+
+      <% end %>
    </tbody>
   </table>
 

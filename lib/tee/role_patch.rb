@@ -22,7 +22,17 @@ module TEE
     end
 
     module InstanceMethods
-      
+      # def all_statuses
+      #   result = {}
+      #   result['start'] = []
+      #   result['pause'] = []
+      #   result['close'] = []
+      #   self.statuses.each do |status|
+      #     result[status.type] << [status.id, status.name] 
+      #   end
+
+      #   result
+      # end
     end
   end
 end

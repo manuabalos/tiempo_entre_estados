@@ -1,7 +1,7 @@
 es:
     text_edit: "Editar"
 
-    text_profile: "Perfil"
+    text_rol: "Perfil"
     text_status: "Estado"
     text_status_p: "Estados"
     text_calendar: "Calendario"
@@ -10,6 +10,7 @@ es:
     start_status_p: "Estados inicio"
     end_status: "Estado final"
     end_status_p: "Estados final"
+    pause_status: "Estado pausa"
     start_date: "Fecha inicio"
     end_date: "Fecha fin"
     text_link_add: "Nuevo calendario"

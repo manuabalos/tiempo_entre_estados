@@ -2,7 +2,7 @@
 en:
     text_edit: "Edit"
 
-    text_profile: "Profile"
+    text_rol: "Profile"
     text_status: "Status"
     text_status_p: "Statuses"
     text_calendar: "Calendar"
@@ -11,6 +11,7 @@ en:
     start_status_p: "Start statuses"
     end_status: "End status"
     end_status_p: "End statuses"
+    pause_status: "Pause status"
     start_date: "Start date"
     end_date: "End date"
     link_text_add: "New calendar"
