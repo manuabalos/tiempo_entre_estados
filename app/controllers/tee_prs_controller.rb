@@ -1,8 +1,17 @@
 class TeePrsController < ApplicationController
   unloadable
+
+  menu_item :config_time_statuses
+  before_filter :find_project_by_project_id, :authorize
+
   def index
-  	# Hay que recoger los estados de inicio y de fin para ese usuario y poder modificarlos
-  	@user = User.find params[:user_id]
-  	@statuses = IssueStatus.select(:name).uniq.map{|status| status.name}
+  	@statuses = IssueStatus.uniq.map{|status| [status.name, status.id]}
+
+	@role = Role.find(params[:role_id])
+
+	@start = @role.roles_statuses[:start].map{|e| e[:id]}
+	@pause = @role.roles_statuses[:pause].map{|e| e[:id]}
+	@close = @role.roles_statuses[:close].map{|e| e[:id]}
   end
+
 end

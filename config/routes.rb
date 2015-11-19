@@ -6,7 +6,7 @@
 # get '/newcalendar' , :to => 'time_statuses#createcalendar', as: 'newcalendar'
 
 RedmineApp::Application.routes.draw do
-	match 'tee/:action', :to => 'tee'
+	match 'tee/:action', :to => 'tee', as: 'tee_home'
 	resources :tee_prs
 	resources :tee_timetables
 	resources :tee_calendars

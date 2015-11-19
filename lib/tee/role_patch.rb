@@ -22,17 +22,14 @@ module TEE
     end
 
     module InstanceMethods
-      # def all_statuses
-      #   result = {}
-      #   result['start'] = []
-      #   result['pause'] = []
-      #   result['close'] = []
-      #   self.statuses.each do |status|
-      #     result[status.type] << [status.id, status.name] 
-      #   end
+      def roles_statuses
+        result = {:start => [], :pause => [], :close => []}
+        tee_prss.each do |prs|
+          result[prs.status_type.to_sym] << {:id => prs.statuses.id, :name => prs.statuses.name}
+        end
 
-      #   result
-      # end
+        return result
+      end
     end
   end
 end

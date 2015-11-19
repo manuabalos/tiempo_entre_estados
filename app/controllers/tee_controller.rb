@@ -1,15 +1,13 @@
 class TeeController < ApplicationController
   unloadable
 
+  menu_item :config_time_statuses
+  before_filter :find_project_by_project_id, :authorize
+
   def index
-  	@roles = Role.all
-  	
-  	@result = {}
-  	@roles.each do |r|
-	  	@result[r.name] = {:start => [], :pause => [], :close => []}
-  		r.tee_prss.each do |prs|
-  			@result[r.name][prs.status_type.to_sym] << prs.statuses.name
-  		end
-  	end
+    @result = {}
+    Role.all.each do |r|
+      @result[r.id] = {:name => r.name, :statuses => r.roles_statuses}
+    end
   end
 end
