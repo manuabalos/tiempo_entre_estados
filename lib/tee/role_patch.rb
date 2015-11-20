@@ -23,7 +23,14 @@ module TEE
     end
 
     module InstanceMethods
-      
+      def roles_statuses(project_id)
+        result = {:start => [], :pause => [], :close => []}
+        tee_prss.where('project_id = ?', project_id).each do |prs|
+          result[prs.status_type.to_sym] << {:id => prs.statuses.id, :name => prs.statuses.name}
+        end
+
+        return result
+      end
     end
   end
 end

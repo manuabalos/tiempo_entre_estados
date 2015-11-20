@@ -1,24 +1,24 @@
-<h4> <%= l(:"text_calendar") %></h4>
+<h2> <%= l(:"text_timetable") %></h2>
 <!-- Hay que modificar la referencia del formulario -->
 <div class="splitcontent">
 	<%= form_for :issue do |f| %>
-	<div class="splitcontentleft">
+	<div class="splitcontentleft" style="width: 150px;">
 			<p id="start_date_area">
-			  <%= f.label "Fecha inicio: " %>	
+			  <div><%= f.label "Fecha inicio: " , {class: "width: 200px"} %></div>
 			  <%= f.text_field(:start_date, :size => 10) %>
 			  <%= calendar_for('issue_start_date') %>
 			</p>
 			<p id="start_due_area">
-			  <%= f.label "Fecha fin: " %>	
+			  <div><%= f.label "Fecha fin: " , {class: "width: 200px"}%></div>	
 			  <%= f.text_field(:due_date, :size => 10) %>
 			  <%= calendar_for('issue_due_date') %>
 			</p>
 	</div>
 
-	<div class="splitcontentright">
-		<p><%=l(:text_profile)+": "%>
-		<%= select_tag 'user_id', options_for_select(@users), {:multiple => true} %>
-		<p>
+	<div >
+		<div><%=l(:text_roles)+": "%></div>
+		<%= select_tag 'user_id', options_for_select(@users), {:multiple => true, :size => 5, style: "width:150px; margin-right: 70px;"} %>
+		
 	</div>
 
 	<table class="list">
@@ -33,49 +33,50 @@
 	 <tbody>
 		  <tr>
 		     <td><%=l(:"calendar.text_monday")%></td>
-		     <td><%= select_time(Time.now, :include_seconds => false) %>: <%= select_minute(0) %></td>
-		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
 		     <td><%= f.check_box "", checked: true%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_tuesday")%></td>
-		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
-		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
 		     <td><%= f.check_box "", checked: true%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_wednesday")%></td>
-		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
-		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
 		     <td><%= f.check_box "", checked: true%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_thrusday")%></td>
-		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
-		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
 		     <td><%= f.check_box "", checked: true%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_friday")%></td>
-		     <td><%= select_hour(8) %>: <%= select_minute(0) %></td>
-		     <td><%= f.text_field :due_date, :size => 10  %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
+		     <td><%= select_hour(0) %>: <%= select_minute(0, {:minute_step => 15}) %></td>
 		     <td><%= f.check_box "", checked: true%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_saturday")%></td>
-		     <td><%= f.text_field :start_date, :size => 10, disabled: true %></td>
-		     <td><%= f.text_field :due_date, :size => 10, disabled: true  %></td>
-		     <td><%= f.check_box "", disabled: true%></td>
+		     <td><%= select_hour(0, {:disabled => true}) %>: <%= select_minute(0, {:minute_step => 15, :disabled => true}) %></td>
+		     <td><%= select_hour(0, {:disabled => true}) %>: <%= select_minute(0, {:minute_step => 15, :disabled => true}) %></td>
+		     <td><%= f.check_box ""%></td>
 		  </tr>
 		  <tr>
 		     <td><%=l(:"calendar.text_sunday")%></td>
-		     <td><%= f.text_field :start_date, :size => 10, disabled: true %></td>
-		     <td><%= f.text_field :due_date, :size => 10, disabled: true  %></td>
-		     <td><%= f.check_box "", disabled: true%></td>
+		     <td><%= select_hour(0, {:disabled => true}) %>: <%= select_minute(0, {:minute_step => 15, :disabled => true}) %></td>
+		     <td><%= select_hour(0, {:disabled => true}) %>: <%= select_minute(0, {:minute_step => 15, :disabled => true}) %></td>
+		     <td><%= f.check_box ""%></td>
 		  </tr>
 	 </tbody>
 	</table>
 
-	<%= f.submit "Guardar" %>
+	<%= f.submit "Guardar", style: "float: left;" %>
 	<% end %>
+	<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
 </div>

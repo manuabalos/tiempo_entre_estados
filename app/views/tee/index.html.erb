@@ -1,55 +1,86 @@
 
-  <b><%= l(:text_status_p) %></b>
+  <h2><%= l(:text_status_p) %></h2>
 
   <table class="list">
    <thead>
     <tr>
-       <th><%= l(:text_profile)%></th>
-       <th><%= l(:start_status)%></th>
-       <th><%= l(:end_status)%></th>
+       <th><%= l(:text_role) %></th>
+       <th><%= l(:start_status) %></th>
+       <th><%= l(:pause_status) %></th>
+       <th><%= l(:end_status) %></th>
        <th>Permisos</th>
     </tr>
    </thead>
    <tbody>
-   	<% @users.each do |user| %>
-  	  <tr>
-  	     <td><%= user.login %></td>
-  	     <td>Est.Inicio</td>
-  	     <td>Est.Fin</td>
-  	     <td><span class="icon icon-edit"><%= link_to l(:text_edit), :controller => :tee_prs, :action => :index, :user_id => user.id %></td>
-  	  </tr>
-    	<% end %>
+   	<%# @roles.each do |rol| %>
+  	  
+      <% @result.each do |role_id, data| %>
+        <tr class="<%= cycle("odd", "even") %>">
+         <td><%= data[:name] %></td>
+  	     <td>
+            <%= data[:statuses][:start].collect{|d| d[:name]}.join(', ') %>
+         </td>
+         <td>
+            <%= data[:statuses][:pause].collect{|d| d[:name]}.join(', ') %>
+         </td>
+         <td>
+            <%= data[:statuses][:close].collect{|d| d[:name]}.join(', ') %>
+         </td>
+         <!-- <td><%# data[:statuses][:pause].join(', ') %></td>
+         <td><%# data[:statuses][:close].join(', ') %></td> -->
+
+         
+         <td><%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), :controller => :tee_prs, :action => :index, :role_id => role_id, :project_id => @project.id %></td>
+        </tr>
+
+      <% end %>
    </tbody>
   </table>
 
-
-
-  <b><%= l(:text_calendar_p) %></b> 
-    <div class="contextual">
-      <span class="icon icon-add"><%= link_to l(:text_link_add), :controller => :tee_timetables, :action => :index %>
-    </div>
-
+<div class="content" style="margin-top:20px;"> 
+  <div class="contextual">
+    <%= link_to '<span class="icon icon-add">'.html_safe+l(:text_link_add), :controller => :tee_timetables, :action => :index, :project_id => @project.id %>
+  </div>
+  <h2><%= l(:text_timetable_p) %></h2> 
   <table class="list">
    <thead>
     <tr>
+       <th>Nombre</th>
        <th><%= l(:start_date) %></th>
        <th><%= l(:end_date) %></th>
-       <th><%= l(:text_profile) %></th>
+       <th><%= l(:text_role) %></th>
        <th>Permisos</th>
     </tr>
    </thead>
    <tbody>
-    <tr>
+    <tr class="<%= cycle("odd", "even") %>">
+       <td> General </td>
        <td>-</td>
        <td>-</td>
        <td>Todos</td>
-       <td><span class="icon icon-edit"> Editar</td>
+       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
     </tr>
-    <tr>
+    <tr class="<%= cycle("odd", "even") %>">
+       <td> cal_operador</td>
        <td>20/12/2015</td>
        <td>07/01/2016</td>
        <td>Perfil 1, Perfil 2</td>
-       <td><span class="icon icon-edit"> Editar</td>
+       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
+    </tr>
+    <tr class="<%= cycle("odd", "even") %>">
+       <td> cal_proveedor</td>
+       <td>10/12/2015</td>
+       <td>15/06/2016</td>
+       <td>Perfil 3</td>
+       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
+    </tr>
+     <tr class="<%= cycle("odd", "even") %>">
+       <td> cal_proveedor_2</td>
+       <td>20/12/2015</td>
+       <td>25/06/2016</td>
+       <td>Perfil 4</td>
+       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
     </tr>
    </tbody>
   </table>
+</div>
