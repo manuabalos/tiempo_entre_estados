@@ -4,7 +4,7 @@ class CreatePrs < ActiveRecord::Migration
     	t.column :project_id, :integer, :null => false
     	t.column :role_id, :integer, :null => false
     	t.column :status_id, :integer, :null => false
-    	t.column :type, :string
+    	t.column :status_type, :string
     end
   end
 

@@ -1,10 +1,59 @@
-<h4> Estados de perfil de <%= @user.login %></h4>
+<h2> Estados de perfil de '<%= @role.name %>'</h2>
+<%= form_for :tee_prs do |f| %>
+<%= hidden_field_tag :project_id, @project.id %>
+<%= hidden_field_tag :role_id, @role.id %>
+<table>
+	<tbody>
+		<tr>
+			<td style:"width: 100px"><%= l(:start_status_p) %></td>
+			<td>
+				<table class="query-columns">
+					<tbody>
+						<tr>
+							<td style:"padding-left:0">
+								<label for="available_columns">Columnas disponibles</label><br>
+								<%= select_tag 'start', options_for_select(@statuses, @start), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<td><%= l(:pause_status_p) %></td>
+			<td>
+				<table class="query-columns">
+					<tbody>
+						<tr>
+							<td style:"padding-left:0">
+								<label for="available_columns">Columnas disponibles</label><br>
+								<%= select_tag 'pause', options_for_select(@statuses, @pause), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<td><%= l(:end_status_p) %></td>
+			<td>
+				<table class="query-columns">
+					<tbody>
+						<tr>
+							<td style:"padding-left:0">
+								<label for="available_columns">Columnas disponibles</label><br>
+								<%= select_tag 'close', options_for_select(@statuses, @close), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
 
-<p>
-	<%= l(:start_status_p) %>
-	<%= select_tag 'user_id', options_for_select(@statuses) %>
-</p>
-<p>
-	<%= l(:end_status_p) %>
-	<%= select_tag 'user_id', options_for_select(@statuses) %>
-</p>
+
+
+
+
+		</tr>
+	</tbody>
+</table>
+
+<%= f.submit "Guardar", style: "float: left;" %>
+<% end %>
+
+<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>

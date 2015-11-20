@@ -1,8 +1,13 @@
 class TeeController < ApplicationController
   unloadable
 
+  menu_item :config_time_statuses 
+  before_filter :find_project_by_project_id, :authorize
+
   def index
-  	@users = User.all # provisonal
-  	# Hay que recoger los estados de inicio y de fin de cada usaurio
+    @result = {}
+    Role.all.each do |r|
+      @result[r.id] = {:name => r.name, :statuses => r.roles_statuses(@project.id)}
+    end
   end
 end
