@@ -14,7 +14,7 @@ Redmine::Plugin.register :tiempo_entre_estados do
   project_module :time_statuses do
     permission :tee_view_config, :tee => :index
     permission :tee_edit_statuses, :tee_prs => [:index, :create]
-    permission :tee_edit_timetables, :tee_timetables => :index
+    permission :tee_edit_timetables, :tee_timetables => [:index, :create]
   end
   menu :project_menu, :config_time_statuses, { :controller => 'tee', :action => 'index' }, :caption => 'Control de tiempos', :last => true, :param => :project_id
 
