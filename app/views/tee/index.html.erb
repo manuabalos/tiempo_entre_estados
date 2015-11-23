@@ -12,27 +12,14 @@
     </tr>
    </thead>
    <tbody>
-   	<%# @roles.each do |rol| %>
-  	  
       <% @result.each do |role_id, data| %>
         <tr class="<%= cycle("odd", "even") %>">
          <td><%= data[:name] %></td>
-  	     <td>
-            <%= data[:statuses][:start].collect{|d| d[:name]}.join(', ') %>
-         </td>
-         <td>
-            <%= data[:statuses][:pause].collect{|d| d[:name]}.join(', ') %>
-         </td>
-         <td>
-            <%= data[:statuses][:close].collect{|d| d[:name]}.join(', ') %>
-         </td>
-         <!-- <td><%# data[:statuses][:pause].join(', ') %></td>
-         <td><%# data[:statuses][:close].join(', ') %></td> -->
-
-         
+  	     <td><%= data[:statuses][:start].collect{|d| d[:name]}.join(', ') %></td>
+         <td><%= data[:statuses][:pause].collect{|d| d[:name]}.join(', ') %></td>
+         <td><%= data[:statuses][:close].collect{|d| d[:name]}.join(', ') %></td>
          <td><%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), :controller => :tee_prs, :action => :index, :role_id => role_id, :project_id => @project.id %></td>
         </tr>
-
       <% end %>
    </tbody>
   </table>
@@ -53,34 +40,21 @@
     </tr>
    </thead>
    <tbody>
-    <tr class="<%= cycle("odd", "even") %>">
-       <td> General </td>
-       <td>-</td>
-       <td>-</td>
-       <td>Todos</td>
-       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
-    </tr>
-    <tr class="<%= cycle("odd", "even") %>">
-       <td> cal_operador</td>
-       <td>20/12/2015</td>
-       <td>07/01/2016</td>
-       <td>Perfil 1, Perfil 2</td>
-       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
-    </tr>
-    <tr class="<%= cycle("odd", "even") %>">
-       <td> cal_proveedor</td>
-       <td>10/12/2015</td>
-       <td>15/06/2016</td>
-       <td>Perfil 3</td>
-       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
-    </tr>
-     <tr class="<%= cycle("odd", "even") %>">
-       <td> cal_proveedor_2</td>
-       <td>20/12/2015</td>
-       <td>25/06/2016</td>
-       <td>Perfil 4</td>
-       <td><span class="icon icon-edit"> Editar <span class="icon icon-del"> Eliminar</td>
-    </tr>
+        <% @timetables.each do |timetable| %>
+           <tr class="<%= cycle("odd", "even") %>">
+             <td><%= timetable.name.capitalize %></td>
+             <td><%= timetable.start_date.day %>-<%= timetable.start_date.month %>-<%= timetable.start_date.year %></td>
+             <td><%= timetable.end_date.day %>-<%= timetable.end_date.month %>-<%= timetable.end_date.year %></td>
+             <td>
+              <%= timetable.roles.collect{|rol| rol[:name]}.join(', ') %>
+             </td>
+             <td>
+                <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project.id) %>
+
+                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:confirm_delete), :method => :delete %>
+             </td>
+          </tr>
+        <% end %>
    </tbody>
   </table>
 </div>

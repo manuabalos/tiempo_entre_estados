@@ -9,9 +9,9 @@ class TeeTimetable < ActiveRecord::Base
 
   private
   	def one_hour_less
-  		self.journals.each do |journal|
-  			journal.start_time = journal.start_time - 1.hour
-  			journal.end_time = journal.end_time - 1.hour
-  		end
+  		# self.journals.each do |journal|
+  		# 	journal.start_time = journal.start_time - 1.hour
+  		# 	journal.end_time = journal.end_time - 1.hour
+  		# end
   	end
 end

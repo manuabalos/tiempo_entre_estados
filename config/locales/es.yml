@@ -1,6 +1,7 @@
 es:
     text_edit: "Editar"
-
+    text_delete: "Eliminar"
+    confirm_delete: "¿Estás seguro de eliminar este calendario?"
     text_role: "Perfil"
     text_roles: "Perfiles"
     text_status: "Estado"

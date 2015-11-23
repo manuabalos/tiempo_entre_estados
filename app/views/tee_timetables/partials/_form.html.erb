@@ -1,0 +1,61 @@
+<h2> <%= l(:"text_timetable") %></h2>
+<!-- Hay que modificar la referencia del formulario -->
+<div class="splitcontent">
+	<%= form_for @timetable do |f| %>
+	<%= hidden_field_tag :project_id, @project.id %>
+	<%= f.hidden_field :project_id, :value => @project.id %>
+	<div class="splitcontentleft" style="width: 300px; margin-top: -13px;">
+		  	<p>
+		  	  <div><%= f.label "Nombre: " , {class: "width: 200px"} %></div>
+		  	  <%= f.text_field(:name, :size => 30) %>
+		  	</p>
+			<p id="start_date_area">
+			  <div><%= f.label "Fecha inicio: " , {class: "width: 200px"} %></div>
+			  <%= f.text_field(:start_date, :size => 10) %>
+			  <%= calendar_for('tee_timetable_start_date') %>
+			</p>
+			<p id="start_due_area">
+			  <div><%= f.label "Fecha fin: " , {class: "width: 200px"}%></div>	
+			  <%= f.text_field(:end_date, :size => 10) %>
+			  <%= calendar_for('tee_timetable_end_date') %>
+			</p>
+	</div>
+
+	<div >
+		<div><%=l(:text_roles)+": "%></div>
+		<%= select_tag 'roles', options_for_select(@roles, :selected => @rolestimetable), {:multiple => true, :size => 7.5, style: "width:175px; margin-right: 70px;"} %>
+		
+	</div>
+
+	<table class="list">
+	 <thead>
+	  <tr>
+	     <th></th>
+	     <th><%= l(:"calendar.text_start_time") %></th>
+	     <th><%= l(:"calendar.text_end_time") %></th>
+	     <th><%= l(:"calendar.text_workable") %></th>
+	  </tr>
+	 </thead>
+	 <tbody>
+	 	<% @weeks.each_with_index do |week, i| %>
+			<%= f.fields_for :journals, @journals[i] do |j| %>
+			  <tr class="<%= cycle("odd", "even") %>">
+			     <td><%= l(("calendar.text_"+week).to_sym) %></td>
+			     <%= j.hidden_field :week_day, :value => i %>
+			     <td>
+			     	 <%= j.datetime_select :start_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15 %>
+			     	</td>
+			     <td><%= j.datetime_select :end_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15 %>
+			     </td>
+			     <td><%= j.check_box :workable %></td>
+			  </tr>
+			<% end %>
+		  
+		<% end %>
+	 </tbody>
+	</table>
+
+	<%= f.submit "Guardar", style: "float: left;" %>
+	<% end %>
+	<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
+</div>

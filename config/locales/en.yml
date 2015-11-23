@@ -1,7 +1,8 @@
 # English strings go here for Rails i18n
 en:
     text_edit: "Edit"
-
+    text_del: "Delete"
+    confirm_delete: "Are you sure?"
     text_role: "Profile"
     text_roles_p: "Profiles"
     text_status: "Status"
