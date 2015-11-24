@@ -43,8 +43,8 @@
         <% @timetables.each do |timetable| %>
            <tr class="<%= cycle("odd", "even") %>">
              <td><%= timetable.name.capitalize %></td>
-             <td><%= timetable.start_date.day %>-<%= timetable.start_date.month %>-<%= timetable.start_date.year %></td>
-             <td><%= timetable.end_date.day %>-<%= timetable.end_date.month %>-<%= timetable.end_date.year %></td>
+             <td><%= timetable.start_date.strftime("%d-%m-%Y") %></td>
+             <td><%= timetable.end_date.strftime("%d-%m-%Y") %></td>
              <td>
               <%= timetable.roles.collect{|rol| rol[:name]}.join(', ') %>
              </td>
