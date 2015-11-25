@@ -1,6 +1,7 @@
 require 'tee/issue_status_patch'
 require 'tee/project_patch'
 require 'tee/role_patch'
+require 'tee/application_helper_patch'
 
 Redmine::Plugin.register :tiempo_entre_estados do
   name 'Tiempo Entre Estados plugin'
@@ -10,7 +11,6 @@ Redmine::Plugin.register :tiempo_entre_estados do
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
 
-  #permission :time_statuses, :tee => :index
   project_module :time_statuses do
     permission :tee_view_config, :tee => [:index]
     permission :tee_edit_statuses, :tee_prs => [:index, :create]

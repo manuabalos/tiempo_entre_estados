@@ -1,7 +1,10 @@
 es:
     text_edit: "Editar"
     text_delete: "Eliminar"
-    confirm_delete: "¿Estás seguro de eliminar este calendario?"
+    text_save: "Guardar"
+    text_back: "Volver"
+    text_name: "Nombre"
+    text_permissions: "Permisos"
     text_role: "Perfil"
     text_roles: "Perfiles"
     text_status: "Estado"
@@ -19,6 +22,7 @@ es:
     start_date: "Fecha inicio"
     end_date: "Fecha fin"
     text_link_add: "Nuevo calendario"
+    confirm_delete: "¿Estás seguro de eliminar este calendario?"
 
     calendar:
         text_start_time: "Hora de inicio"

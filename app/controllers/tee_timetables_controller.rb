@@ -1,5 +1,6 @@
 class TeeTimetablesController < ApplicationController
   unloadable
+  include TeeTimetablesHelper
 
   menu_item :config_time_statuses
   before_filter :find_project_by_project_id, :authorize
@@ -30,6 +31,7 @@ class TeeTimetablesController < ApplicationController
 
   def edit
     @journals = @timetable.journals
+
     @rolestimetable = []
     @timetable.roles.collect{|role| @rolestimetable << role[:id]}
   end
@@ -38,16 +40,16 @@ class TeeTimetablesController < ApplicationController
     roles = Role.where(:id => params[:roles])
     @timetable.roles.destroy_all
     @timetable.roles << roles
+
    
     if @timetable.update_attributes(params[:tee_timetable]) 
       redirect_to tee_home_path(:project_id => @project.id)
     else
-      render 'edit'
+      render 'edit' 
     end
   end
 
   def destroy
-    @timetable.journals.destroy_all
     @timetable.destroy
   
     redirect_to tee_home_path(:project_id => @project.id)
@@ -55,13 +57,9 @@ class TeeTimetablesController < ApplicationController
 
   def set_timetable
     @timetable = TeeTimetable.find(params[:id]) 
-  end
+  end 
 
   def set_roles
     @roles = Role.uniq.map{|role| [role.name, role.id]}
-  end
-
-  def set_weeks
-    @weeks = [{:id => 1, :name =>"monday"},{:id => 2, :name =>"tuesday"},{:id => 3, :name =>"wednesday"},{:id => 4, :name =>"friday"},{:id => 5, :name =>"saturday"},{:id => 0, :name =>"sunday"}]
   end
 end

@@ -1,3 +1,8 @@
+<%= csrf_meta_tag %>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "tee_timetable_journals.js", :plugin => 'tiempo_entre_estados' %>
+<% end %>
+
 <h2> <%= l(:"text_timetable") %></h2>
 <!-- Hay que modificar la referencia del formulario -->
 <div class="splitcontent">
@@ -6,18 +11,18 @@
 	<%= f.hidden_field :project_id, :value => @project.id %>
 	<div class="splitcontentleft" style="width: 300px; margin-top: -13px;">
 		  	<p>
-		  	  <div><%= f.label "Nombre: " , {class: "width: 200px"} %></div>
+		  	  <div><%= f.label l(:text_name)+": " , {class: "width: 200px"} %></div>
 		  	  <%= f.text_field(:name, :size => 30) %>
 		  	</p>
 			<p id="start_date_area">
-			  <div><%= f.label "Fecha inicio: " , {class: "width: 200px"} %></div>
-			  <%= f.text_field(:start_date, :size => 10, :value => @timetable.start_date.nil? ? "" : @timetable.start_date.strftime("%d-%m-%Y")) %>
-			  <%= calendar_for('tee_timetable_start_date') %>
+			  <div><%= f.label l(:start_date)+": " , {class: "width: 200px"} %></div>
+			  <%= f.text_field(:start_date, :size => 8, :value => @timetable.start_date.nil? ? "" : @timetable.start_date.strftime("%d-%m-%Y")) %>
+			  <%= calendar_for_es('tee_timetable_start_date') %>
 			</p>
 			<p id="start_due_area">
-			  <div><%= f.label "Fecha fin: " , {class: "width: 200px"}%></div>	
-			  <%= f.text_field(:end_date, :size => 10, :value => @timetable.end_date.nil? ? "" : @timetable.start_date.strftime("%d-%m-%Y")) %>
-			  <%= calendar_for('tee_timetable_end_date') %>
+			  <div><%= f.label l(:end_date)+": " , {class: "width: 200px"}%></div>	
+			  <%= f.text_field(:end_date, :size => 8, :value => @timetable.end_date.nil? ? "" : @timetable.end_date.strftime("%d-%m-%Y")) %>
+			  <%= calendar_for_es('tee_timetable_end_date') %>
 			</p>
 	</div>
 
@@ -40,14 +45,17 @@
 	 	<% @weeks.each_with_index do |week, i| %>
 			<%= f.fields_for :journals, @journals[i] do |j| %>
 			  <tr class="<%= cycle("odd", "even") %>">
-			     <td><%= l(("calendar.text_"+week[:name].to_s).to_sym) %></td>
-			     <%= j.hidden_field :week_day, :value => week[:id] %>
-			     <td>
-			     	 <%= j.datetime_select :start_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15 %>
-			     	</td>
-			     <td><%= j.datetime_select :end_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15 %>
-			     </td>
-			     <td><%= j.check_box :workable %></td>
+			  	 <td><%= l(("calendar.text_"+week[:name].to_s).to_sym) %></td>
+			  	 <%= j.hidden_field :week_day, :value => week[:id] %>
+			  	<% if @journals[i]["workable"] == nil || @journals[i]["workable"] == true%>
+				     <td><%= j.datetime_select :start_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15%></td>
+				     <td><%= j.datetime_select :end_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15 %></td>
+				     <td><%= j.check_box :workable, :id => i, :checked => true, :class =>"workable" %></td>
+			    <% elsif @journals[i]["workable"] == false %>
+				     <td><%= j.datetime_select :start_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15, :disabled => true%></td>
+				     <td><%= j.datetime_select :end_time, :discard_year => true, :discard_month => true, :default => {:hour => 0, :minute => 0}, :minute_step => 15, :disabled => true %></td>
+				     <td><%= j.check_box :workable, :id => i, :checked => false, :class =>"workable" %></td>
+			    <% end %>
 			  </tr>
 			<% end %>
 		  
@@ -55,7 +63,7 @@
 	 </tbody>
 	</table>
 
-	<%= f.submit "Guardar", style: "float: left;" %>
+	<%= f.submit l(:text_save), style: "float: left;" %>
 	<% end %>
-	<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
+	<%= button_to l(:text_back), tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
 </div>
