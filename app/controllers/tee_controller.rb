@@ -9,5 +9,8 @@ class TeeController < ApplicationController
     Role.all.each do |r|
       @result[r.id] = {:name => r.name, :statuses => r.roles_statuses(@project.id)}
     end
+
+    @timetables = TeeTimetable.all
   end
+
 end

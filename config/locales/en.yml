@@ -1,7 +1,11 @@
 # English strings go here for Rails i18n
 en:
     text_edit: "Edit"
-
+    text_del: "Delete"
+    text_save: "Save"
+    text_back: "Back"
+    text_name: "Name"
+    text_permissions: "Permissions"
     text_role: "Profile"
     text_roles_p: "Profiles"
     text_status: "Status"
@@ -19,6 +23,8 @@ en:
     start_date: "Start date"
     end_date: "End date"
     link_text_add: "New calendar"
+    confirm_delete: "Are you sure?"
+
     calendar:
         text_start_time: "Start time"
         text_end_time: "End time"
