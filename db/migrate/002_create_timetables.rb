@@ -1,6 +1,7 @@
 class CreateTimetables < ActiveRecord::Migration
   def self.up
     create_table :tee_timetables do |t|
+      t.column :name, :string, :null => false
     	t.column :project_id, :integer, :null => false
     	t.column :start_date, :datetime, :null => false
     	t.column :end_date, :datetime, :null => false

@@ -1,9 +1,11 @@
 class TeeTimetable < ActiveRecord::Base
   unloadable
 
-  has_many :journals, :class_name => 'TeeTimetableJournal'
+  has_many :journals, :class_name => 'TeeTimetableJournal', :dependent => :destroy
   scope :journal, ->(date) {includes(:journals).were("journals.week_day = ?", date.wday)}
+
   has_and_belongs_to_many :roles
+  accepts_nested_attributes_for :journals
 
   # Tiempo trabajado en una semana completa
   def week_total_time
