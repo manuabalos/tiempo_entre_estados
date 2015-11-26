@@ -16,17 +16,21 @@ class TeeTimetablesController < ApplicationController
     end
   end
 
-   def create
-  	tt = TeeTimetable.create(params["tee_timetable"])
+  def create
+  	@timetable = TeeTimetable.new(params["tee_timetable"])
 
   	if params["journals_attributes"]
-      timetables = tt.journals.build
-      timetable.save
+      @timetable.journals.build
   	end
 
-    tt.roles = Role.where("id in (?)", params["roles"])
-
-  	redirect_to tee_home_path(:project_id => @project.id)
+    @timetable.roles = Role.where("id in (?)", params["roles"])
+    if @timetable.save
+      flash[:notice] = l(:text_calendar_notice)
+  	  redirect_to tee_home_path(:project_id => @project.id)
+    else
+      flash[:error] = @timetable.get_error_message
+      redirect_to action: 'index', :project_id => @project.id
+    end
   end
 
   def edit
@@ -41,17 +45,22 @@ class TeeTimetablesController < ApplicationController
     @timetable.roles.destroy_all
     @timetable.roles << roles
 
-   
     if @timetable.update_attributes(params[:tee_timetable]) 
+      flash[:notice] = l(:text_calendar_notice_edit)
       redirect_to tee_home_path(:project_id => @project.id)
     else
-      render 'edit' 
+      flash[:error] = @timetable.get_error_message
+      redirect_to action: 'edit', :project_id => @project.id
     end
   end
 
   def destroy
-    @timetable.destroy
-  
+    if @timetable.destroy
+      flash[:notice] = l(:text_calendar_notice_destroy)
+    else
+      flash[:error] = l(:text_calendar_error_destroy)
+    end
+
     redirect_to tee_home_path(:project_id => @project.id)
   end
 
