@@ -1,6 +1,5 @@
 class TeeTimetableJournal < ActiveRecord::Base
   unloadable
-  #scope :wday, ->(date) {where("week_day = ?", date.wday).first}
 
   belongs_to :journals
 

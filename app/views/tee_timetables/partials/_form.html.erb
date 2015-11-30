@@ -4,9 +4,10 @@
 <% end %>
 
 <h2> <%= l(:"text_timetable") %></h2>
-<!-- Hay que modificar la referencia del formulario -->
+
 <div class="splitcontent">
 	<%= form_for @timetable do |f| %>
+
 	<%= hidden_field_tag :project_id, @project.id %>
 	<%= f.hidden_field :project_id, :value => @project.id %>
 	<div class="splitcontentleft" style="width: 300px; margin-top: -13px;">

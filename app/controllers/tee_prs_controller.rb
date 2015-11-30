@@ -29,11 +29,14 @@ class TeePrsController < ApplicationController
   	  		new_prs.role_id = params[:role_id] 
   	  		new_prs.status_id = status.to_i
   	  		new_prs.status_type = type
-  	  	 	new_prs.save
+  	  	 	if !new_prs.save
+            flash[:error] = l(:text_status_error)
+            redirect_to tee_home_path(:project_id => @project.id)
+          end
   	  	end
       end
   	end
-
+    flash[:notice] = l(:text_status_notice)
   	redirect_to tee_home_path(:project_id => @project.id)
   end
 end
