@@ -94,7 +94,7 @@ class TeeTimetable < ActiveRecord::Base
   private
     # Valida que no existen solapamientos
     def avoid_overlap
-      errors.add :base, l(:"error.text_calendar_error_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?  
+      errors.add :base, l(:"error.timetable_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?  
     end
     
     # Valida que si no es un horario por defecto, start_date y end_date tenga una fecha

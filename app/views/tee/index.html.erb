@@ -51,7 +51,7 @@
              <td>
                 <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project.id) %>
 
-                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:delete_timetable), :method => :delete %>
+                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
              </td>
           </tr>
         <% end %>
