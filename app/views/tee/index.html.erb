@@ -24,7 +24,7 @@
    </tbody>
   </table>
 
-<div class="content" style="margin-top:20px;"> 
+<div class="content" style="margin-top:20px; float: left; width: 60%; margin-right:5%"> 
   <div class="contextual">
     <%= link_to '<span class="icon icon-add">'.html_safe+l(:text_link_add), :controller => :tee_timetables, :action => :index, :project_id => @project.id %>
   </div>
@@ -60,13 +60,13 @@
 </div>
 
 <div class="content" style="margin-top:20px;"> 
-  <h2>Calendario</h2>
+  <h2>Festivos</h2>
 
-  <table class="list">
+  <table class="list" style="width: 35%">
    <thead>
     <tr>
        <th>Nombre</th>
-       <th colspan="5">Perfiles</th><th></th><th></th><th></th><th></th><th></th>
+       <th>Perfiles</th>
        <th>Permisos</th>
 
     </tr>
@@ -74,7 +74,7 @@
    <tbody>
       <tr class="<%= cycle("odd", "even") %>">
         <td>España</td>
-        <td colspan="5">Todos</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>Todos</td>
         <td>
           <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
           <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
@@ -82,7 +82,7 @@
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Jaén</td>
-        <td colspan="5">Perfil 1</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>Perfil 1</td>
         <td>
           <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
           <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
@@ -90,7 +90,7 @@
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Granada</td>
-        <td colspan="5">Perfil 2</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>Perfil 2</td>
         <td>
           <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
           <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
@@ -98,7 +98,7 @@
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Sevilla</td>
-        <td colspan="5">Perfil 3</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>Perfil 3</td>
         <td>
           <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
           <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
