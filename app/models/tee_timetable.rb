@@ -6,6 +6,7 @@ class TeeTimetable < ActiveRecord::Base
   accepts_nested_attributes_for :journals
 
   validate :avoid_overlap
+  validate :check_timetable_default
   validate :check_dates
 
   # Genera mensaje de error
@@ -93,11 +94,16 @@ class TeeTimetable < ActiveRecord::Base
   private
     # Valida que no existen solapamientos
     def avoid_overlap
-      errors.add :base, l(:text_calendar_error_overlap) if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?  
+      errors.add :base, l(:"error.text_calendar_error_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?  
     end
     
+    # Valida que si no es un horario por defecto, start_date y end_date tenga una fecha
+    def check_timetable_default 
+      errors.add :base, l(:"error.check_timetable_default") if self.default == false && self.start_date == nil && self.end_date == nil
+    end
+
     # Valida que la fecha de inicio no es mayor que la de fin
     def check_dates
-      errors.add :base, l(:text_date_error) if self.start_date > self.end_date
+      errors.add :base, l(:"error.date_error") if (self.start_date != nil && self.end_date != nil) && (self.start_date > self.end_date)
     end
 end

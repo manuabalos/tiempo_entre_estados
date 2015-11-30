@@ -5,39 +5,39 @@
 <table>
 	<tbody>
 		<tr>
-			<td style:"width: 100px"><%= l(:start_status_p) %></td>
+
 			<td>
 				<table class="query-columns">
 					<tbody>
 						<tr>
 							<td style:"padding-left:0">
-								<label for="available_columns">Columnas disponibles</label><br>
+								<label for="available_columns"><%= l(:"status.start_statuses") %></label><br>
 								<%= select_tag 'start', options_for_select(@statuses, @start), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</td>
-			<td><%= l(:pause_status_p) %></td>
+
 			<td>
 				<table class="query-columns">
 					<tbody>
 						<tr>
 							<td style:"padding-left:0">
-								<label for="available_columns">Columnas disponibles</label><br>
+								<label for="available_columns"><%= l(:"status.pause_statuses") %></label><br>
 								<%= select_tag 'pause', options_for_select(@statuses, @pause), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</td>
-			<td><%= l(:end_status_p) %></td>
+
 			<td>
 				<table class="query-columns">
 					<tbody>
 						<tr>
 							<td style:"padding-left:0">
-								<label for="available_columns">Columnas disponibles</label><br>
+								<label for="available_columns"><%= l(:"status.end_statuses") %></label><br>
 								<%= select_tag 'close', options_for_select(@statuses, @close), {:multiple => true, :size => 10, style: "width:150px; margin-right: 70px;"} %>
 							</td>
 						</tr>
