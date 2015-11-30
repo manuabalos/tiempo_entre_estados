@@ -1,0 +1,10 @@
+#calendar{
+	display: block;
+	margin: auto;	
+}
+table.ui-datepicker-calendar {
+	border-collapse: separate;
+}
+.ui-datepicker-calendar td {
+	border: 1px solid transparent;
+}

@@ -8,4 +8,5 @@ RedmineApp::Application.routes.draw do
 		resources :tee_timetables_journals
 	end
 	resources :tee_calendars
+	resources :tee_holidays
 end

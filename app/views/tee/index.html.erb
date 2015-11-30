@@ -58,3 +58,55 @@
    </tbody>
   </table>
 </div>
+
+<div class="content" style="margin-top:20px;"> 
+  <h2>Calendario</h2>
+
+  <table class="list">
+   <thead>
+    <tr>
+       <th>Nombre</th>
+       <th colspan="5">Perfiles</th><th></th><th></th><th></th><th></th><th></th>
+       <th>Permisos</th>
+
+    </tr>
+   </thead>
+   <tbody>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>España</td>
+        <td colspan="5">Todos</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+        </td>
+      </tr>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>Jaén</td>
+        <td colspan="5">Perfil 1</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+        </td>
+      </tr>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>Granada</td>
+        <td colspan="5">Perfil 2</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+        </td>
+      </tr>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td>Sevilla</td>
+        <td colspan="5">Perfil 3</td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+        </td>
+      </tr>
+
+   <tbody>
+  </table>
+
+
+</div>
