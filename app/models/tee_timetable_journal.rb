@@ -1,35 +1,43 @@
 class TeeTimetableJournal < ActiveRecord::Base
   unloadable
-  #scope :week_day, ->(wday) {were("week_day = ?", wday)}
+  #scope :wday, ->(date) {where("week_day = ?", date.wday).first}
 
   belongs_to :journals
 
   # Tiempo trabajado en el día completo
   def day_total_time
-  	end_time - start_time
+    if workable
+  	  return (end_time.to_i - start_time.to_i)
+    else
+      return 0
+    end
   end
 
   # Tiempo trabajado desde la hora indicada en stime hasta la hora indicada en etime. Si alguno es nil, se considera el inicio/fin de la jornada
   def day_time(stime = nil, etime = nil)
-    # Horas de inicio y fin de jornada
-    jstime = normalize_time(start_time)
-    jetime = normalize_time(end_time)
+    if workable
+      # Horas de inicio y fin de jornada
+      jstime = normalize_time(start_time)
+      jetime = normalize_time(end_time)
 
-    # Si stime es nulo, toma el valor del inicio de la jornada
-    if stime.present?
-      stime = normalize_time(stime)
+      # Si stime es nulo, toma el valor del inicio de la jornada
+      if stime.present?
+        stime = normalize_time(stime)
+      else
+        stime = jstime
+      end
+
+      # Si etime es nulo, toma el valor del fin de la jornada
+      if etime.present?
+        etime = normalize_time(etime) 
+      else
+        etime = jetime
+      end
+
+      return [([etime, jetime].min.to_i - [stime, jstime].max.to_i), 0].max
     else
-      stime = jstime
+      return 0
     end
-
-    # Si etime es nulo, toma el valor del fin de la jornada
-    if etime.present?
-      etime = normalize_time(etime) 
-    else
-      etime = jetime
-    end
-
-    [([etime, jetime].min.to_i - [stime, jstime].max.to_i), 0].max
   end
 
   private

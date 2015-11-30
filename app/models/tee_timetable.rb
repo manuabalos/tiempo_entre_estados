@@ -2,7 +2,7 @@ class TeeTimetable < ActiveRecord::Base
   unloadable
 
   has_many :journals, :class_name => 'TeeTimetableJournal', :dependent => :destroy
-  scope :journal, ->(date) {includes(:journals).were("journals.week_day = ?", date.wday)}
+  #scope :journal_for, ->(date) {includes(:journals).were("journals.week_day = ?", date.wday)}
 
   has_and_belongs_to_many :roles
   accepts_nested_attributes_for :journals
@@ -16,20 +16,23 @@ class TeeTimetable < ActiveRecord::Base
   def get_time(stime, etime)
   	time = 0
 
-  	if Date.parse(etime.to_s) == Date.parse(stime.to_s)
+  	if etime.to_date == stime.to_date
   		time += journal(stime).day_time(stime, etime)
   	else
-  		second_day = Date.parse((stime + 1.day).to_s)
-  		penultimate_day = Date.parse((etime - 1.day).to_s)
+  		second_day = (stime + 1.day).to_date
+  		penultimate_day = (etime - 1.day).to_date
 
+      # Calculamos el tiempo las semanas completas que hay en el intervalo
   		weeks = ([(penultimate_day - second_day).to_i, 0].max / 7).floor
+  		time += weeks * week_total_time
 
-  		(stime..(etime - weeks.days)).each do |date|
+      # Para el resto de días, calculamos por cada día
+  		(stime.to_date..(etime - (weeks * 7).days).to_date).each do |date|
   			case date
 	  			when stime
-	  				time += journal(date).day_time(date)
+	  				time += journal(date).day_time(stime)
 	  			when (etime - weeks.days)
-	  				time += journal(date).day_time(nil, date)
+	  				time += journal(date).day_time(nil, etime)
 	  			else
 	  				time += journal(date).day_time
 	  		end
@@ -39,8 +42,63 @@ class TeeTimetable < ActiveRecord::Base
 	  time
 	end
 
+=begin
 	# Devuelve el calendario correspondiente al intervalo indicado
-	def self.get_calendar(stime, etime)
-		#where("start_date <= ? AND end_date >= ?", etime, stime)
+  def self.assign_calendars(project_id, role_id, stime, etime)
+    #where("start_date <= ? AND end_date >= ?", etime, stime)
+    result = []
+
+    while stime < etime
+      timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ?", project_id, role_id, stime, stime).order(:stime => :desc).first
+      
+      if timetable.present?
+        result << {:stime => stime, :etime => [timetable.end_date, etime].min, :timetable => timetable.id}
+        stime = timetable.end_date
+      else
+        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date is NULL AND end_date is NULL", project_id, role_id).first
+
+        if timetable.present?
+          result << {:stime => stime, :etime => etime, :timetable => timetable.id}
+        end
+
+        stime = etime
+      end
+    end
+
+    result
+  end
+=end
+
+  # Devuelve el tiempo total para el intervalo indicado
+  def self.get_total_time(project_id, role_id, stime, etime)
+    time = 0
+
+    while stime < etime
+      timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ?", project_id, role_id, etime, stime).order(:stime => :desc).first
+      
+      if timetable.present? and timetable.start_date <= stime
+        interval_etime = [timetable.end_date, etime].min
+      else
+        if timetable.present?
+          interval_etime = timetable.start_date
+        else
+          interval_etime = etime
+        end
+
+        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date is NULL AND end_date is NULL", project_id, role_id).first
+      end
+
+      if timetable.present?
+        time += timetable.get_time(stime, interval_etime)
+      end
+
+      stime = interval_etime
+    end
+
+    time
+  end
+
+	def journal(date)
+	  journals.where("week_day = ?", date.wday).first
 	end
 end
