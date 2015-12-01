@@ -21,14 +21,13 @@ module TEE
     module InstanceMethods
       def get_intervals
         result = []
-        jorunals = JournalDetail.joins(:journal).where('journals.journalized_id = ? AND prop_key = ?', 1, 'status_id').select("journal_details.old_value, journal_details.value, journals.created_on AS end")
+        journals = JournalDetail.joins(:journal).select("journal_details.old_value, journal_details.value, journals.created_on AS end").where('journals.journalized_id = ? AND prop_key = ?', 1, 'status_id')
         start = self.created_on
-
         journals.each do |journal|
           result << {:status_id => journal.old_value, :start => start, :end => journal.end}
           start = journal.end
         end
-        result << {:status_id => result.last.value, :start => start, :end => DateTime.current}
+        result << {:status_id => journals.last.value, :start => start, :end => DateTime.current}
       end
     end
   end
