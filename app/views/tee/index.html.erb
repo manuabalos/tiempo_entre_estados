@@ -1,13 +1,13 @@
 
-  <h2><%= l(:text_status_p) %></h2>
+  <h2><%= l(:"status.statuses") %></h2>
 
   <table class="list">
    <thead>
     <tr>
        <th><%= l(:text_role) %></th>
-       <th><%= l(:start_status) %></th>
-       <th><%= l(:pause_status) %></th>
-       <th><%= l(:end_status) %></th>
+       <th><%= l(:"status.start_status") %></th>
+       <th><%= l(:"status.pause_status") %></th>
+       <th><%= l(:"status.end_status") %></th>
        <th><%= l(:text_permissions) %></th>
     </tr>
    </thead>
@@ -26,16 +26,16 @@
 
 <div class="content" style="margin-top:20px; float: left; width: 60%; margin-right:5%"> 
   <div class="contextual">
-    <%= link_to '<span class="icon icon-add">'.html_safe+l(:text_link_add), :controller => :tee_timetables, :action => :index, :project_id => @project.id %>
+    <%= link_to '<span class="icon icon-add">'.html_safe+l(:"timetable.new_timetable"), :controller => :tee_timetables, :action => :index, :project_id => @project.id %>
   </div>
-  <h2><%= l(:text_timetable_p) %></h2> 
+  <h2><%= l(:"timetable.timetables") %></h2> 
   <table class="list">
    <thead>
     <tr>
        <th><%= l(:text_name) %></th>
-       <th><%= l(:start_date) %></th>
-       <th><%= l(:end_date) %></th>
-       <th><%= l(:text_role) %></th>
+       <th><%= l(:"timetable.start_date") %></th>
+       <th><%= l(:"timetable.end_date") %></th>
+       <th><%= l(:text_roles) %></th>
        <th><%= l(:text_permissions) %></th>
     </tr>
    </thead>
@@ -43,15 +43,15 @@
         <% @timetables.each do |timetable| %>
            <tr class="<%= cycle("odd", "even") %>">
              <td><%= timetable.name.capitalize %></td>
-             <td><%= timetable.start_date.strftime("%d-%m-%Y") %></td>
-             <td><%= timetable.end_date.strftime("%d-%m-%Y") %></td>
+             <td><%= timetable.start_date.nil? ? "" : timetable.start_date.strftime("%d-%m-%Y") %></td>
+             <td><%= timetable.end_date.nil? ? "" : timetable.end_date.strftime("%d-%m-%Y") %></td>
              <td>
               <%= timetable.roles.collect{|rol| rol[:name]}.join(', ') %>
              </td>
              <td>
                 <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project.id) %>
 
-                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:confirm_delete), :method => :delete %>
+                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
              </td>
           </tr>
         <% end %>
@@ -60,14 +60,14 @@
 </div>
 
 <div class="content" style="margin-top:20px;"> 
-  <h2>Festivos</h2>
+  <h2><%= l(:"holyday.holydays") %></h2>
 
   <table class="list" style="width: 35%">
    <thead>
     <tr>
-       <th>Nombre</th>
-       <th>Perfiles</th>
-       <th>Permisos</th>
+       <th><%= l(:text_name) %></th>
+       <th><%= l(:text_roles) %></th>
+       <th><%= l(:text_permissions) %></th>
 
     </tr>
    </thead>

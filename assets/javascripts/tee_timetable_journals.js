@@ -22,4 +22,27 @@ $(document).ready(function(){
 			$("#tee_timetable_journals_attributes_"+num+"_end_time_5i option:eq(0)").prop('selected',true);
 		}
 	});
+
+	$('.timetable_default').on('click', function(){
+		if($(this).attr('checked')){
+			disabledTimetableDates();
+			$("#tee_timetable_start_date").prop("value",null);
+			$("#tee_timetable_end_date").prop("value",null);
+		} else {
+			$("#tee_timetable_start_date").attr("disabled",false);
+			$("#tee_timetable_end_date").attr("disabled",false);
+		}
+	});
+
+	$(".timetable.timetable_form").ready(function() {
+		if($('.timetable_default').attr('checked')){
+			disabledTimetableDates();
+		}
+
+	});	
+
+	function disabledTimetableDates(){
+		$("#tee_timetable_start_date").attr("disabled",true);
+		$("#tee_timetable_end_date").attr("disabled",true);
+	}
 });
