@@ -2,6 +2,7 @@ require 'tee/issue_status_patch'
 require 'tee/project_patch'
 require 'tee/role_patch'
 require 'tee/application_helper_patch'
+require 'tee/issue_patch'
 
 Redmine::Plugin.register :tiempo_entre_estados do
   name 'Tiempo Entre Estados plugin'
