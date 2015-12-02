@@ -10,14 +10,6 @@ module TEE
       # Same as typing in the class
       base.class_eval do
         unloadable # Send unloadable so it will be reloaded in development
-      end
-    end
-
-    module ClassMethods
-      
-    end
-
-    module InstanceMethods
         def calendar_for_es(field_id)
 		    include_calendar_headers_tags_es
 		    javascript_tag("$(function() { $('##{field_id}').datepicker(datepickerOptions); });")
@@ -48,6 +40,14 @@ module TEE
 		      end
 		    end
 		end
+      end
+    end
+
+    module ClassMethods
+      
+    end
+
+    module InstanceMethods
     end
   end
 end
