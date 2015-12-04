@@ -8,4 +8,6 @@ RedmineApp::Application.routes.draw do
 		resources :tee_timetables_journals
 	end
 	resources :tee_holidays
+
+	get '/issues/:id/stats_total_time', to: 'issues#stats_total_time', as: 'stats_total_time'
 end
