@@ -15,6 +15,9 @@ module TEE
     end
 
     module ClassMethods
+      def get_hours(seconds)
+        return ((seconds.to_f/60)/60).round(1)
+      end
       
     end
 
@@ -31,7 +34,9 @@ module TEE
         end
           result << {:status_id => self.status_id, :start => start, :end => Time.now}
       end
+
     end
+
   end
 end
 if Rails::VERSION::MAJOR >= 3
