@@ -35,6 +35,7 @@ es:
         saturday: "Sábado"
         sunday: "Domingo"
         new_timetable: "Nuevo horario"
+        default: "Hacer este calendario por defecto"
         delete_timetable: "¿Estás seguro de eliminar este horario?"
         timetable_notice_create: "El horario ha sido creado correctamente."
         timetable_notice_edit: "El horario ha sido modificado correctamente."

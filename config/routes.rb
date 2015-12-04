@@ -9,5 +9,6 @@ RedmineApp::Application.routes.draw do
 	end
 	resources :tee_holidays
 
-	get '/issues/:id/stats_total_time', to: 'issues#stats_total_time', as: 'stats_total_time'
+	get 'issues/:id/stats_total_time', to: 'issues#stats_total_time', as: 'stats_total_time'
+	
 end

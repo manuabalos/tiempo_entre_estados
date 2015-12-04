@@ -10,8 +10,7 @@ module TEE
 	      unloadable  # Send unloadable so it will be reloaded in development
 	      alias_method_chain :show, :total_time
 	      skip_before_filter :authorize, :only => [:stats_total_time]
-	      before_filter :set_start_statuses, only: [:show, :stats_total_time]
-	      before_filter :set_get_intervals, only: [:show, :stats_total_time]
+	      before_filter :set_start_statuses, :set_get_intervals, only: [:show, :stats_total_time]
 	    end
 	  end
 
@@ -28,17 +27,15 @@ module TEE
 
 			     # Calcula el tiempo del ultimo intervalo
 			 	 if interval == @intervals.last
-			 	 	@last_interval_time = TeeTimetable.get_total_time(@issue.project_id, role, interval[:start], interval[:end])
+			 	 	@last_interval_time = TeeTimetable.get_total_time(@issue.project_id, role, interval[:start], interval[:end]) if statuses.map{|s| s[:id]}.include?(interval[:status_id])
 			 	 end
 			 end
-
 			end
 
 			@total_time = Issue.get_hours(@total_time) 
 			@last_interval_time = Issue.get_hours(@last_interval_time)
 
-
-	      show_without_total_time
+	        show_without_total_time
 	   end
 
 	   # Recoge toda la información para cada intervalo de una petición
@@ -59,6 +56,7 @@ module TEE
 			   end
 			 end
 			end    
+
 	   		render 'stats_total_time.html.erb'
 	   end
 
