@@ -18,7 +18,7 @@
   	     <td><%= data[:statuses][:start].collect{|d| d[:name]}.join(', ') %></td>
          <td><%= data[:statuses][:pause].collect{|d| d[:name]}.join(', ') %></td>
          <td><%= data[:statuses][:close].collect{|d| d[:name]}.join(', ') %></td>
-         <td><%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), :controller => :tee_prs, :action => :index, :role_id => role_id, :project_id => @project.id %></td>
+         <td><%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), :controller => :tee_prs, :action => :index, :role_id => role_id, :project_id => @project %></td>
         </tr>
       <% end %>
    </tbody>
@@ -26,7 +26,7 @@
 
 <div class="content" style="margin-top:20px; float: left; width: 60%; margin-right:5%"> 
   <div class="contextual">
-    <%= link_to '<span class="icon icon-add">'.html_safe+l(:"timetable.new_timetable"), :controller => :tee_timetables, :action => :index, :project_id => @project.id %>
+    <%= link_to '<span class="icon icon-add">'.html_safe+l(:"timetable.new_timetable"), :controller => :tee_timetables, :action => :index, :project_id => @project %>
   </div>
   <h2><%= l(:"timetable.timetables") %></h2> 
   <table class="list">
@@ -49,9 +49,9 @@
               <%= timetable.roles.collect{|rol| rol[:name]}.join(', ') %>
              </td>
              <td>
-                <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project.id) %>
+                <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project) %>
 
-                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project.id), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
+                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
              </td>
           </tr>
         <% end %>
@@ -61,7 +61,7 @@
 
 <div class="content" style="margin-top:20px;"> 
   <div class="contextual">
-    <%= link_to '<span class="icon icon-add">'.html_safe+"Nuevo calendario", tee_holidays_path(:project_id => @project.id) %>
+    <%= link_to '<span class="icon icon-add">'.html_safe+"Nuevo calendario", tee_holidays_path(:project_id => @project) %>
   </div>
   <h2><%= l(:"holyday.holydays") %></h2>
 
@@ -79,32 +79,32 @@
         <td>España</td>
         <td>Todos</td>
         <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
         </td>
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Jaén</td>
         <td>Perfil 1</td>
         <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
         </td>
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Granada</td>
         <td>Perfil 2</td>
         <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
         </td>
       </tr>
       <tr class="<%= cycle("odd", "even") %>">
         <td>Sevilla</td>
         <td>Perfil 3</td>
         <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project.id) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project.id) %>
+          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
+          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
         </td>
       </tr>
 
