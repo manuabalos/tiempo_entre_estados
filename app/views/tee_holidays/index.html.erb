@@ -1,15 +1,2 @@
-<%= csrf_meta_tag %>
-<% content_for :header_tags do %>
-  <%= javascript_include_tag "tee_holidays.js", :plugin => 'tiempo_entre_estados' %>
-  <%= javascript_include_tag "jquery.ui.datepicker.js", :plugin => 'tiempo_entre_estados' %>
-  <%= stylesheet_link_tag "/tee_holidays.css", :plugin => 'tiempo_entre_estados', :media => "screen" %>
-<% end %>
+<%= render "tee_holidays/partials/form" %>
 
-<h2> Calendario </h2>
-
-<div class="holidays index" id="holidays">
-	<div id="calendar"></div>
-</div>
-
-<%= button_to "Guardar", tee_home_path(:project_id => @project.id), style: "float: left; margin-top: 5px" %>
-<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px; margin-top: 5px" %>

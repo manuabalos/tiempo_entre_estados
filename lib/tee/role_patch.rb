@@ -15,6 +15,7 @@ module TEE
         has_many :projects, :through => :tee_prss
         has_many :statuses, :through => :tee_prss, :class_name => 'IssueStatus', :foreign_key => :status_id
         has_and_belongs_to_many :tee_timetables
+        has_and_belongs_to_many :tee_holidays
       end
     end
 

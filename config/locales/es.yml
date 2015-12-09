@@ -41,9 +41,10 @@ es:
         timetable_notice_edit: "El horario ha sido modificado correctamente."
         timetable_notice_destroy: "El horario ha sido eliminado correctamente."
 
-    holyday:
-        holyday: "Festivo"
-        holydays: "Festivos"
+    holiday:
+        holiday: "Festivo"
+        holidays: "Festivos"
+        holiday_notice_create: "El calendario ha sido creado correctamente."
 
     issue:
         total_time: "Tiempo total"
