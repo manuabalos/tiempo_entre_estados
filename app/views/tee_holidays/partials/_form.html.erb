@@ -1,0 +1,27 @@
+<%= csrf_meta_tag %>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "tee_holidays.js", :plugin => 'tiempo_entre_estados' %>
+  <%= javascript_include_tag "jquery.ui.datepicker.js", :plugin => 'tiempo_entre_estados' %>
+  <%= stylesheet_link_tag "/tee_holidays.css", :plugin => 'tiempo_entre_estados', :media => "screen" %>
+<% end %>
+
+<h2> Festivos </h2>
+<%= form_for @holiday do |f| %>
+	<%= hidden_field_tag :project_id, @project.id %>
+ 	<%= f.hidden_field :project_id, :value => @project.id %>
+ 	<p><div><%= f.label "Nombre del calendario de festivos: " , {class: "width: 200px"} %></div>
+	<%= f.text_field(:name, :size => 26) %></p>
+
+	<div><%=l(:text_roles)+": "%></div>
+	<%= select_tag 'roles', options_for_select(@roles, :selected => @rolestimetable), {:multiple => true, :size => 8, style: "width:175px; margin-right: 70px;"} %>
+
+	<div class="holidays index" id="holidays">
+		<div id="calendar"></div>
+		<%= f.hidden_field :date %>
+	</div>
+
+	<%= f.submit l(:text_save), style: "float: left;" %>
+<% end %>
+<%= button_to l(:text_back), tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
+<%# button_to "Guardar", tee_holidays_path(:project_id => @project.id), method: "post", class: "holidays_save",style: "float: left; margin-top: 5px" %>
+<%# button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px; margin-top: 5px" %>
