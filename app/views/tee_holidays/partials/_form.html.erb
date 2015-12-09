@@ -7,7 +7,7 @@
 
 <h2> Festivos </h2>
 <%= form_for @holiday do |f| %>
-	<%= hidden_field_tag :project_id, @project.id %>
+	<%= hidden_field_tag :project_id, @project %>
  	<%= f.hidden_field :project_id, :value => @project.id %>
  	<p><div><%= f.label "Nombre del calendario de festivos: " , {class: "width: 200px"} %></div>
 	<%= f.text_field(:name, :size => 26) %></p>
@@ -22,6 +22,6 @@
 
 	<%= f.submit l(:text_save), style: "float: left;" %>
 <% end %>
-<%= button_to l(:text_back), tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
+<%= button_to l(:text_back), tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
 <%# button_to "Guardar", tee_holidays_path(:project_id => @project.id), method: "post", class: "holidays_save",style: "float: left; margin-top: 5px" %>
 <%# button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px; margin-top: 5px" %>
