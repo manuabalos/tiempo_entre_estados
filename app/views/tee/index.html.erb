@@ -75,38 +75,16 @@
     </tr>
    </thead>
    <tbody>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td>España</td>
-        <td>Todos</td>
-        <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
-        </td>
-      </tr>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td>Jaén</td>
-        <td>Perfil 1</td>
-        <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
-        </td>
-      </tr>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td>Granada</td>
-        <td>Perfil 2</td>
-        <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
-        </td>
-      </tr>
-      <tr class="<%= cycle("odd", "even") %>">
-        <td>Sevilla</td>
-        <td>Perfil 3</td>
-        <td>
-          <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
-          <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
-        </td>
-      </tr>
+      <% @holidays.each do |holiday| %>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td><%= holiday.name %></td>
+          <td><%= holiday.roles.collect{|rol| rol[:name]}.join(', ') %></td>
+          <td>
+            <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
+            <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
+          </td>
+        </tr>
+      <% end %>
 
    <tbody>
   </table>

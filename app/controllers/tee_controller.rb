@@ -11,6 +11,7 @@ class TeeController < ApplicationController
     end
 
     @timetables = TeeTimetable.all
+    @holidays = TeeHoliday.all
   end
 
 end
