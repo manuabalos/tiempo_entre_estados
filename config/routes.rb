@@ -18,5 +18,5 @@ RedmineApp::Application.routes.draw do
 	end
 
 
-	get '/issues/:id/stats_total_time', to: 'issues#stats_total_time', as: 'stats_total_time'
+	match '/issues/:issue_id/stats_total_time', to: 'issues#stats_total_time', as: 'stats_total_time'
 end
