@@ -15,10 +15,10 @@ class TeeHolidaysController < ApplicationController
 
   	if @holiday.save
       flash[:notice] = l(:"holiday.holiday_notice_create")
-  	  redirect_to tee_home_path(:project_id => @project.id)
+  	  redirect_to tee_home_path(:project_id => @project)
     else
       flash[:error] = @holiday.get_error_message
-      redirect_to action: 'index', :project_id => @project.id
+      redirect_to action: 'index', :project_id => @project
     end
   end
 

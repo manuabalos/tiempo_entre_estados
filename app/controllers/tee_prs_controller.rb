@@ -25,18 +25,18 @@ class TeePrsController < ApplicationController
       if params[type.to_sym] != nil
   	  	params[type.to_sym].each do |status|
   	  		new_prs = TeePrs.new
-  	  		new_prs.project_id = params[:project_id] 
+  	  		new_prs.project_id = @project.id
   	  		new_prs.role_id = params[:role_id] 
   	  		new_prs.status_id = status.to_i
   	  		new_prs.status_type = type
   	  	 	if !new_prs.save
             flash[:error] = l(:"error.status_modified")
-            redirect_to tee_home_path(:project_id => @project.id)
+            redirect_to tee_home_path(:project_id => @project)
           end
   	  	end
       end
   	end
     flash[:notice] = l(:"status.status_notice_create")
-  	redirect_to tee_home_path(:project_id => @project.id)
+  	redirect_to tee_home_path(:project_id => @project)
   end
 end

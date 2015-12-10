@@ -1,6 +1,6 @@
 <h2> Estados de perfil de '<%= @role.name %>'</h2>
 <%= form_for :tee_prs do |f| %>
-<%= hidden_field_tag :project_id, @project.id %>
+<%= hidden_field_tag :project_id, @project %>
 <%= hidden_field_tag :role_id, @role.id %>
 <table>
 	<tbody>
@@ -56,4 +56,4 @@
 <%= f.submit "Guardar", style: "float: left;" %>
 <% end %>
 
-<%= button_to "Volver", tee_home_path(:project_id => @project.id), style: "margin-left: 5px;" %>
+<%= button_to "Volver", tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
