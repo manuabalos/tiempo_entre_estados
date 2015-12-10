@@ -6,7 +6,7 @@
 <h2> <%= l(:"timetable.timetable") %></h2>
 
 <div class="timetable timetable_form">
-	<%= form_for @timetable do |f| %>
+	<%= form_for @timetable, :url => tee_timetable_path(:project_id => @project) do |f| %>
 
 	<%= hidden_field_tag :project_id, @project %>
 	<%= f.hidden_field :project_id, :value => @project.id %>
