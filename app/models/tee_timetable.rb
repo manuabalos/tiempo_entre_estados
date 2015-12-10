@@ -45,9 +45,9 @@ class TeeTimetable < ActiveRecord::Base
       # Para el resto de días, calculamos por cada día
   	  (stime.to_date..(etime - (weeks * 7).days).to_date).each do |date|
   	    case date
-	  	  when stime
+	  	  when stime.to_date
 	  		time += journal(date).day_time(stime)
-	  	  when (etime - weeks.days)
+	  	  when (etime - weeks.days).to_date
 	  		time += journal(date).day_time(nil, etime)
 	  	  else
 	  		time += journal(date).day_time
