@@ -45,6 +45,9 @@ es:
         holiday: "Festivo"
         holidays: "Festivos"
         holiday_notice_create: "El calendario ha sido creado correctamente."
+        holiday_notice_edit: "El calendario ha sido modificado correctamente."
+        delete_holiday: "¿Estás seguro de eliminar este calendario?"
+        holiday_notice_destroy: "El calendario ha sido eliminado correctamente."
 
     issue:
         total_time: "Tiempo total"
@@ -55,3 +58,4 @@ es:
         date_error: "Error: La fecha de inicio no puede ser superior a la fecha de fin."
         timetable_destroy: "Error al intentar eliminar el horario."
         status_modified: "Error al modificar los estados del perfil."
+        holiday_destroy: "Error al intentar eliminar el calendario."

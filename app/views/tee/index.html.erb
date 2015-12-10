@@ -80,8 +80,8 @@
           <td><%= holiday.name %></td>
           <td><%= holiday.roles.collect{|rol| rol[:name]}.join(', ') %></td>
           <td>
-            <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), tee_holidays_path(:project_id => @project) %>
-            <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holidays_path(:project_id => @project) %>
+            <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_holiday_path(holiday, :project_id => @project) %>
+            <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holiday_path(holiday, :project_id => @project), :confirm => l(:"holiday.delete_holiday"), :method => :delete %>
           </td>
         </tr>
       <% end %>
