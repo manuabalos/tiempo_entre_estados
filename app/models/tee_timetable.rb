@@ -8,6 +8,10 @@ class TeeTimetable < ActiveRecord::Base
   validate :avoid_overlap
   validate :check_timetable_default
   validate :check_dates
+  validate :check_name_blank
+  validate :check_name_uniq
+  validate :check_roles
+  validate :check_timetable_default_by_role
 
   # Genera mensaje de error
   def get_error_message
@@ -94,7 +98,7 @@ class TeeTimetable < ActiveRecord::Base
   private
     # Valida que no existen solapamientos
     def avoid_overlap
-       errors.add :base, l(:"error.text_calendar_error_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?   
+       errors.add :base, l(:"error.timetable_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?   
     end
     
     # Valida que si no es un horario por defecto, start_date y end_date tenga una fecha
@@ -102,8 +106,33 @@ class TeeTimetable < ActiveRecord::Base
       errors.add :base, l(:"error.check_timetable_default") if self.default == false && self.start_date == nil && self.end_date == nil
     end
 
-    # Valida que la fecha de inicio no es mayor que la de fin
+    # Valida que la fecha de inicio no es mayor que la fecha de fin
     def check_dates
       errors.add :base, l(:"error.date_error") if (self.start_date != nil && self.end_date != nil) && (self.start_date > self.end_date)
     end
+
+    # Valida que el nombre del horario no este en blanco
+    def check_name_blank
+      errors.add :base, l(:"error.timetable_name_blank") if self.name.blank?
+    end
+
+    # Valida que el nombre del horario no este repetido
+    def check_name_uniq
+      errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where(name: self.name).present?
+    end
+
+    # Valida que se encuentra seleccionado algún rol
+    def check_roles
+      errors.add :base, l(:"error.timetable_roles_blank") if self.roles.blank?
+    end
+
+    # Valida que solo haya un horario por defecto para cada perfil
+    def check_timetable_default_by_role
+      if self.default == true
+        self.roles.each do |role|
+            errors.add :base, l(:"error.timetable_default_by_role", name: role.name) if role.tee_timetables.where(default: true).present?
+        end
+      end
+    end
+
 end
