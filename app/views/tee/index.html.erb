@@ -49,9 +49,9 @@
               <%= timetable.roles.collect{|rol| rol[:name]}.join(', ') %>
              </td>
              <td>
-                <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_timetable_path(timetable, :project_id => @project) %>
+                <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_project_tee_timetable_path(timetable, :project_id => @project) %>
 
-                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_timetable_path(timetable, :project_id => @project), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
+                <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), project_tee_timetable_path(timetable, :project_id => @project), :confirm => l(:"timetable.delete_timetable"), :method => :delete %>
              </td>
           </tr>
         <% end %>
@@ -61,7 +61,7 @@
 
 <div class="content" style="margin-top:20px;"> 
   <div class="contextual">
-    <%= link_to '<span class="icon icon-add">'.html_safe+"Nuevo calendario", tee_holidays_path(:project_id => @project) %>
+    <%= link_to '<span class="icon icon-add">'.html_safe+"Nuevo calendario", project_tee_holidays_path(:project_id => @project) %>
   </div>
   <h2><%= l(:"holiday.holidays") %></h2>
 
@@ -80,8 +80,8 @@
           <td><%= holiday.name %></td>
           <td><%= holiday.roles.collect{|rol| rol[:name]}.join(', ') %></td>
           <td>
-            <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_tee_holiday_path(holiday, :project_id => @project) %>
-            <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), tee_holiday_path(holiday, :project_id => @project), :confirm => l(:"holiday.delete_holiday"), :method => :delete %>
+            <%= link_to '<span class="icon icon-edit">'.html_safe+l(:text_edit), edit_project_tee_holiday_path(holiday, :project_id => @project) %>
+            <%= link_to '<span class="icon icon-del">'.html_safe+l(:text_delete), project_tee_holiday_path(holiday, :project_id => @project), :confirm => l(:"holiday.delete_holiday"), :method => :delete %>
           </td>
         </tr>
       <% end %>

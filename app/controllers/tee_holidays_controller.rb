@@ -16,7 +16,7 @@ class TeeHolidaysController < ApplicationController
 
   	if @holiday.save
       flash[:notice] = l(:"holiday.holiday_notice_create")
-  	  redirect_to tee_home_path(:project_id => @project)
+  	  redirect_to project_tee_home_path(:project_id => @project)
     else
       flash[:error] = @holiday.get_error_message
       redirect_to action: 'index', :project_id => @project
@@ -30,13 +30,11 @@ class TeeHolidaysController < ApplicationController
 
  def update 
     roles = Role.where(:id => params[:roles])
-    binding.pry
     @holiday.roles.destroy_all
     @holiday.roles << roles
-    binding.pry
     if @holiday.update_attributes(params[:tee_holiday]) 
       flash[:notice] = l(:"holiday.holiday_notice_edit")
-      redirect_to tee_home_path(:project_id => @project.id)
+      redirect_to project_tee_home_path(:project_id => @project.id)
     else
       flash[:error] = @holiday.get_error_message
       redirect_to action: 'edit', :project_id => @project.id
@@ -50,7 +48,7 @@ class TeeHolidaysController < ApplicationController
       flash[:error] = l(:"error.holiday_destroy")
     end
 
-    redirect_to tee_home_path(:project_id => @project.id)
+    redirect_to project_tee_home_path(:project_id => @project.id)
   end
 
   def set_holiday

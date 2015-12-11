@@ -2,9 +2,9 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 RedmineApp::Application.routes.draw do
-	scope '/projects/:project_id/' do
+	scope '/projects/:project_id/', :as => "project" do
 		match 'tiempo_entre_estados', to: 'tee#index', as: 'tee_home'
-	
+		
 		#match ':role_id/statuses', to: 'tee_prs#index'
 		#match ':role_id/statuses/:action', to: 'tee_prs'
 		scope ':role_id/' do

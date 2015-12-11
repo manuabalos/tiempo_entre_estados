@@ -31,12 +31,12 @@ class TeePrsController < ApplicationController
   	  		new_prs.status_type = type
   	  	 	if !new_prs.save
             flash[:error] = l(:"error.status_modified")
-            redirect_to tee_home_path(:project_id => @project)
+            redirect_to project_tee_home_path(:project_id => @project)
           end
   	  	end
       end
   	end
     flash[:notice] = l(:"status.status_notice_create")
-  	redirect_to tee_home_path(:project_id => @project)
+  	redirect_to project_tee_home_path(:project_id => @project)
   end
 end

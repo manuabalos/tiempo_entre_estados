@@ -26,7 +26,7 @@ class TeeTimetablesController < ApplicationController
     @timetable.roles = Role.where("id in (?)", params["roles"])
     if @timetable.save
       flash[:notice] = l(:"timetable.timetable_notice_create")
-  	  redirect_to tee_home_path(:project_id => @project)
+  	  redirect_to project_tee_home_path(:project_id => @project)
     else
       flash[:error] = @timetable.get_error_message
       redirect_to action: 'index', :project_id => @project
@@ -47,7 +47,7 @@ class TeeTimetablesController < ApplicationController
 
     if @timetable.update_attributes(params[:tee_timetable]) 
       flash[:notice] = l(:"timetable.timetable_notice_edit")
-      redirect_to tee_home_path(:project_id => @project)
+      redirect_to project_tee_home_path(:project_id => @project)
     else
       flash[:error] = @timetable.get_error_message
       redirect_to action: 'edit', :project_id => @project
@@ -61,7 +61,7 @@ class TeeTimetablesController < ApplicationController
       flash[:error] = l(:"error.timetable_destroy")
     end
 
-    redirect_to tee_home_path(:project_id => @project)
+    redirect_to project_tee_home_path(:project_id => @project)
   end
 
   def set_timetable

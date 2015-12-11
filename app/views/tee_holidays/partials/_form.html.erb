@@ -7,7 +7,7 @@
 
 <div class="content">
 <h2> Festivos </h2>
-<%= form_for @holiday do |f| %>
+<%= form_for [@project, @holiday] do |f| %>
 	<div class="splitcontentleft">
 		<%= hidden_field_tag :project_id, @project %>
 	 	<%= f.hidden_field :project_id, :value => @project.id %>
@@ -24,7 +24,7 @@
 
 	
 	<%= f.submit l(:text_save), style: "float: left;" %>
-	<%= button_to l(:text_back), tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
+	<%= button_to l(:text_back), project_tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
 
 
 <% end %>
