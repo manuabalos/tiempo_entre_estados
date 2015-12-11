@@ -24,12 +24,16 @@ class TeeHoliday < ActiveRecord::Base
 
   # Valida que el nombre del calendario de festivos no este en blanco
   def check_name_blank
-     errors.add :base, l(:"error.holiday_name_blank") if self.name.blank?
+    errors.add :base, l(:"error.holiday_name_blank") if self.name.blank?
   end
 
   # Valida que el nombre del calendario de festivos no este repetido
   def check_name_uniq
-    errors.add :base, l(:"error.holiday_name_uniq") if TeeHoliday.where(name: self.name).present?
+    if self.id != nil
+      errors.add :base, l(:"error.holiday_name_uniq") if TeeHoliday.where("name = ? AND id != ?", self.name, self.id).present?
+    else
+      errors.add :base, l(:"error.holiday_name_uniq") if TeeHoliday.where(name: self.name).present?
+    end
   end
 
 end

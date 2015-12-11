@@ -118,7 +118,11 @@ class TeeTimetable < ActiveRecord::Base
 
     # Valida que el nombre del horario no este repetido
     def check_name_uniq
-      errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where(name: self.name).present?
+      if self.id != nil
+        errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where("name = ? AND id != ?", self.name, self.id).present?
+      else
+        errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where(name: self.name).present?
+      end
     end
 
     # Valida que se encuentra seleccionado algún rol
@@ -130,7 +134,11 @@ class TeeTimetable < ActiveRecord::Base
     def check_timetable_default_by_role
       if self.default == true
         self.roles.each do |role|
+          if self.id != nil
+            errors.add :base, l(:"error.timetable_default_by_role", name: role.name) if role.tee_timetables.where("tee_timetables.default = ? AND tee_timetables.id != ?", true, self.id).present?
+          else
             errors.add :base, l(:"error.timetable_default_by_role", name: role.name) if role.tee_timetables.where(default: true).present?
+          end
         end
       end
     end
