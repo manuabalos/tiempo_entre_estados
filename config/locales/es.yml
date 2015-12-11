@@ -52,6 +52,7 @@ es:
     issue:
         total_time: "Tiempo total"
         hour: "hora"
+
     error:
         timetable_overlap: "Error: Hay coincidencias de solapamiento entre horarios ya creados para alguno de los roles indicados."
         check_timetable_default: "Error: Debe introducir una fecha de inicio y de fin para el horario."

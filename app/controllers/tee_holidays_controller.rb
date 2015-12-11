@@ -30,9 +30,10 @@ class TeeHolidaysController < ApplicationController
 
  def update 
     roles = Role.where(:id => params[:roles])
+    binding.pry
     @holiday.roles.destroy_all
     @holiday.roles << roles
-
+    binding.pry
     if @holiday.update_attributes(params[:tee_holiday]) 
       flash[:notice] = l(:"holiday.holiday_notice_edit")
       redirect_to tee_home_path(:project_id => @project.id)

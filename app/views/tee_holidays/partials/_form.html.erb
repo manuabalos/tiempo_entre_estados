@@ -5,9 +5,10 @@
   <%= stylesheet_link_tag "/tee_holidays.css", :plugin => 'tiempo_entre_estados', :media => "screen" %>
 <% end %>
 
+<div class="content">
 <h2> Festivos </h2>
 <%= form_for @holiday do |f| %>
-	<div class="content">
+	<div class="splitcontentleft">
 		<%= hidden_field_tag :project_id, @project %>
 	 	<%= f.hidden_field :project_id, :value => @project.id %>
 	 	<p><div><%= f.label "Nombre del calendario: " , {class: "width: 200px"} %></div>
@@ -15,12 +16,17 @@
 
 		<div><%=l(:text_roles)+": "%></div>
 		<%= select_tag 'roles', options_for_select(@roles, :selected => @rolestimetable), {:multiple => true, :size => 8, style: "width:175px; margin-right: 70px;"} %>
-	</div>
-	<div class="holidays index" id="holidays" style="width:900px; float: right; margin-top:-210px; margin-right: 150px; ">
-		<div id="calendar"></div>
+	
+	<div class="holidays index" id="holidays" class="splitcontentright" style="margin-left: 100px" >
+		<div id="calendar" style="width: 200px; margin-top: -205px"></div>
 		<%= f.hidden_field :date %>
 	</div>
 
+	
 	<%= f.submit l(:text_save), style: "float: left;" %>
+	<%= button_to l(:text_back), tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
+
+
 <% end %>
-<%= button_to l(:text_back), tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
+<div style="clear: both;"></div>
+</div>
