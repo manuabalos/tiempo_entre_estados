@@ -32,7 +32,7 @@ class TeeTimetable < ActiveRecord::Base
   	journals.inject(0.0){|sum,j| sum + j.day_total_time}
   end
 
-  # Calcula el tiempo trabajado entre dos fechas para este calendario
+  # Calcula el tiempo trabajado entre dos fechas para este horario
   def get_time(stime, etime)
   	time = 0
 
@@ -62,31 +62,90 @@ class TeeTimetable < ActiveRecord::Base
 	time
   end
 
+  # Calcula el tiempo en el caso de que en el intervalo sea algún día festivo
+  def get_holidays_time(stime, etime, holidays_days)
+    time = 0
+  
+    if !holidays_days.empty?
+      i = 0
+
+      until i >= holidays_days.length
+        # Se comprueba que para el dia seleccionado se encuentra dentro del rango del intervalo
+        if holidays_days[i].to_date >= stime.to_date && holidays_days[i].to_date <= etime.to_date
+          
+          # Si coincide en el inicio de stime
+          if holidays_days[i].to_date == stime.to_date
+            stime = stime
+            if stime.end_of_day > etime
+              interval_time = etime
+            else
+              interval_time = stime.end_of_day
+            end
+          # Si coincide con el final de etime
+          elsif holidays_days[i].to_date == etime.to_date
+            stime = etime.beginning_of_day
+            interval_time = etime
+          # Si se encuentra dentro del rango
+          else
+            stime = holidays_days[i].to_date.beginning_of_day
+            interval_time = holidays_days[i].to_date.end_of_day
+          end
+
+          time += self.get_time(stime, interval_time)
+        end
+        i += 1
+      end
+
+    end
+
+    time
+  end
+
+  # Devuelve un array con todos los días festivos de un perfil
+  def self.get_holidays_days(holidays)
+    days = []
+
+    holidays.each do |holiday|
+      days << holiday.date.split(",")
+    end
+
+    return days
+  end
+
   # Devuelve el tiempo total para el intervalo indicado
   def self.get_total_time(project_id, role_id, stime, etime)
     time = 0
 
-    while stime < etime
-      timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ? AND tee_timetables.default = 0", project_id, role_id, etime, stime).order(:stime => :desc).first
-      
-      if timetable.present? and timetable.start_date <= stime
-        interval_etime = [timetable.end_date, etime].min
-      else
-        if timetable.present?
-          interval_etime = timetable.start_date
+    holidays_days = []
+    holidays = TeeHoliday.joins(:roles).where("roles.id = ?", role_id)
+    if !holidays.empty?
+      holidays_days << self.get_holidays_days(holidays)
+      holidays_days = holidays_days.flatten.sort
+    end
+
+      while stime < etime 
+
+        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ? AND tee_timetables.default = 0", project_id, role_id, etime, stime).order(:stime => :desc).first
+        
+        if timetable.present? and timetable.start_date <= stime
+          interval_etime = [timetable.end_date, etime].min
         else
-          interval_etime = etime
+          if timetable.present?
+            interval_etime = timetable.start_date
+          else
+            interval_etime = etime
+          end
+
+          timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND tee_timetables.default = 1", project_id, role_id).first
         end
 
-        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND tee_timetables.default = 1", project_id, role_id).first
-      end
+        if timetable.present?   
+          time += timetable.get_time(stime, interval_etime)
+          time -= timetable.get_holidays_time(stime, interval_etime, holidays_days)
+        end
 
-      if timetable.present?
-        time += timetable.get_time(stime, interval_etime)
+        stime = interval_etime
       end
-
-      stime = interval_etime
-    end
 
     time
   end
