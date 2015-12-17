@@ -5,7 +5,7 @@
 
 	<% if @stats_time.map{|s| s[:role]}.include?(role.name) %>
 		<h3><%= role.name.capitalize %></h3>
-		<div class="total-hours">Total: <span class="hours hours-int"><%=  @time_by_roles[role.name] %></span> hora(s)</div>
+		<div class="total-hours">Total: <span class="hours hours-int"><%=  @time_by_roles[role.name].round(1) %></span> hora(s)</div>
 		<div class="autoscroll">
 		<table class="list">
 			<thead>
@@ -23,7 +23,7 @@
 						<td class="buttons" style="text-align: center"><%= row[:status] %></td>
 						<td class="buttons" style="text-align: center"><%= row[:start].strftime("%d-%m-%Y %H:%M:%S") %></td>
 						<td class="buttons" style="text-align: center"><%= row[:end].strftime("%d-%m-%Y %H:%M:%S") %></td>
-						<td class="buttons" style="text-align: center"><%= row[:time] %></td>
+						<td class="buttons" style="text-align: center"><%= row[:time].round(1) %></td>
 						</tr>
 					<% end %>
 				<% end %>

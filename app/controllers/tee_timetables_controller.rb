@@ -36,19 +36,27 @@ class TeeTimetablesController < ApplicationController
   def edit
     @journals = @timetable.journals
 
+    @journals.each do |journal|
+      if journal.workable == true
+        journal.start_time = journal.start_time + 1.hour
+        journal.end_time = journal.end_time + 1.hour
+      end
+    end
+
     @rolestimetable = []
     @timetable.roles.collect{|role| @rolestimetable << role[:id]}
   end
 
   def update 
+    old_roles = @timetable.roles.map{|r| r.id}
     roles = Role.where(:id => params[:roles])
-    @timetable.roles.destroy_all
-    @timetable.roles << roles
+    @timetable.roles = roles
 
     if @timetable.update_attributes(params[:tee_timetable]) 
       flash[:notice] = l(:"timetable.timetable_notice_edit")
       redirect_to project_tee_home_path(:project_id => @project)
     else
+      @timetable.roles = Role.find(old_roles)
       flash[:error] = @timetable.get_error_message
       redirect_to action: 'edit', :project_id => @project
     end

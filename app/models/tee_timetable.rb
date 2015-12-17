@@ -8,6 +8,10 @@ class TeeTimetable < ActiveRecord::Base
   validate :avoid_overlap
   validate :check_timetable_default
   validate :check_dates
+  validate :check_name_blank
+  validate :check_name_uniq
+  validate :check_roles
+  validate :check_timetable_default_by_role
 
   # Genera mensaje de error
   def get_error_message
@@ -28,7 +32,7 @@ class TeeTimetable < ActiveRecord::Base
   	journals.inject(0.0){|sum,j| sum + j.day_total_time}
   end
 
-  # Calcula el tiempo trabajado entre dos fechas para este calendario
+  # Calcula el tiempo trabajado entre dos fechas para este horario
   def get_time(stime, etime)
   	time = 0
 
@@ -58,31 +62,90 @@ class TeeTimetable < ActiveRecord::Base
 	time
   end
 
+  # Calcula el tiempo en el caso de que en el intervalo sea algún día festivo
+  def get_holidays_time(stime, etime, holidays_days)
+    time = 0
+  
+    if !holidays_days.empty?
+      i = 0
+
+      until i >= holidays_days.length
+        # Se comprueba que para el dia seleccionado se encuentra dentro del rango del intervalo
+        if holidays_days[i].to_date >= stime.to_date && holidays_days[i].to_date <= etime.to_date
+          
+          # Si coincide en el inicio de stime
+          if holidays_days[i].to_date == stime.to_date
+            stime = stime
+            if stime.end_of_day > etime
+              interval_time = etime
+            else
+              interval_time = stime.end_of_day
+            end
+          # Si coincide con el final de etime
+          elsif holidays_days[i].to_date == etime.to_date
+            stime = etime.beginning_of_day
+            interval_time = etime
+          # Si se encuentra dentro del rango
+          else
+            stime = holidays_days[i].to_date.beginning_of_day
+            interval_time = holidays_days[i].to_date.end_of_day
+          end
+
+          time += self.get_time(stime, interval_time)
+        end
+        i += 1
+      end
+
+    end
+
+    time
+  end
+
+  # Devuelve un array con todos los días festivos de un perfil
+  def self.get_holidays_days(holidays)
+    days = []
+
+    holidays.each do |holiday|
+      days << holiday.date.split(",")
+    end
+
+    return days
+  end
+
   # Devuelve el tiempo total para el intervalo indicado
   def self.get_total_time(project_id, role_id, stime, etime)
     time = 0
 
-    while stime < etime
-      timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ? AND tee_timetables.default = 0", project_id, role_id, etime, stime).order(:stime => :desc).first
-      
-      if timetable.present? and timetable.start_date <= stime
-        interval_etime = [timetable.end_date, etime].min
-      else
-        if timetable.present?
-          interval_etime = timetable.start_date
+    holidays_days = []
+    holidays = TeeHoliday.joins(:roles).where("roles.id = ?", role_id)
+    if !holidays.empty?
+      holidays_days << self.get_holidays_days(holidays)
+      holidays_days = holidays_days.flatten.sort
+    end
+
+      while stime < etime 
+
+        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND start_date <= ? AND end_date > ? AND tee_timetables.default = 0", project_id, role_id, etime, stime).order(:stime => :desc).first
+        
+        if timetable.present? and timetable.start_date <= stime
+          interval_etime = [timetable.end_date, etime].min
         else
-          interval_etime = etime
+          if timetable.present?
+            interval_etime = timetable.start_date
+          else
+            interval_etime = etime
+          end
+
+          timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND tee_timetables.default = 1", project_id, role_id).first
         end
 
-        timetable = TeeTimetable.joins(:roles).where("project_id = ? AND roles.id = ? AND tee_timetables.default = 1", project_id, role_id).first
-      end
+        if timetable.present?   
+          time += timetable.get_time(stime, interval_etime)
+          time -= timetable.get_holidays_time(stime, interval_etime, holidays_days)
+        end
 
-      if timetable.present?
-        time += timetable.get_time(stime, interval_etime)
+        stime = interval_etime
       end
-
-      stime = interval_etime
-    end
 
     time
   end
@@ -94,7 +157,7 @@ class TeeTimetable < ActiveRecord::Base
   private
     # Valida que no existen solapamientos
     def avoid_overlap
-       errors.add :base, l(:"error.text_calendar_error_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?   
+       errors.add :base, l(:"error.timetable_overlap") if TeeTimetable.joins(:roles).where('tee_timetables.id != ? AND roles.id in (?) AND project_id = ? AND (end_date >= ? AND start_date <= ?)', self.id || '', self.roles.map(&:id), self.project_id, self.start_date, self.end_date).present?   
     end
     
     # Valida que si no es un horario por defecto, start_date y end_date tenga una fecha
@@ -102,8 +165,41 @@ class TeeTimetable < ActiveRecord::Base
       errors.add :base, l(:"error.check_timetable_default") if self.default == false && self.start_date == nil && self.end_date == nil
     end
 
-    # Valida que la fecha de inicio no es mayor que la de fin
+    # Valida que la fecha de inicio no es mayor que la fecha de fin
     def check_dates
       errors.add :base, l(:"error.date_error") if (self.start_date != nil && self.end_date != nil) && (self.start_date > self.end_date)
     end
+
+    # Valida que el nombre del horario no este en blanco
+    def check_name_blank
+      errors.add :base, l(:"error.timetable_name_blank") if self.name.blank?
+    end
+
+    # Valida que el nombre del horario no este repetido
+    def check_name_uniq
+      if self.id != nil
+        errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where("name = ? AND id != ?", self.name, self.id).present?
+      else
+        errors.add :base, l(:"error.timetable_name_uniq") if TeeTimetable.where(name: self.name).present?
+      end
+    end
+
+    # Valida que se encuentra seleccionado algún rol
+    def check_roles
+      errors.add :base, l(:"error.timetable_roles_blank") if self.roles.blank?
+    end
+
+    # Valida que solo haya un horario por defecto para cada perfil
+    def check_timetable_default_by_role
+      if self.default == true
+        self.roles.each do |role|
+          if self.id != nil
+            errors.add :base, l(:"error.timetable_default_by_role", name: role.name) if role.tee_timetables.where("tee_timetables.default = ? AND tee_timetables.id != ?", true, self.id).present?
+          else
+            errors.add :base, l(:"error.timetable_default_by_role", name: role.name) if role.tee_timetables.where(default: true).present?
+          end
+        end
+      end
+    end
+
 end

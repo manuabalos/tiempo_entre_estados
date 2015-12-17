@@ -24,6 +24,7 @@ $(document).ready(function(){
 		$('#calendar').multiDatesPicker({
 			numberOfMonths: [3,4],
 			defaultDate: '1/1/'+y,
+			dateFormat: "dd/mm/yy",
 			firstDay: 1,
 			dayNamesMin: ["D","L","M","X","J","V","S"],
 			monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]

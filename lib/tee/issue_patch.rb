@@ -16,7 +16,7 @@ module TEE
 
     module ClassMethods
       def get_hours(seconds)
-        return ((seconds.to_f/60.0)/60.0).round(1)
+        return ((seconds.to_f/60.0)/60.0)
       end
       
     end

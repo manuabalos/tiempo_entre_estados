@@ -29,13 +29,15 @@ class TeeHolidaysController < ApplicationController
   end
 
  def update 
+    old_roles = @holiday.roles.map{|r| r.id}
     roles = Role.where(:id => params[:roles])
-    @holiday.roles.destroy_all
-    @holiday.roles << roles
+    @holiday.roles = roles
+
     if @holiday.update_attributes(params[:tee_holiday]) 
       flash[:notice] = l(:"holiday.holiday_notice_edit")
       redirect_to project_tee_home_path(:project_id => @project.id)
     else
+      @holiday.roles = Role.find(old_roles)
       flash[:error] = @holiday.get_error_message
       redirect_to action: 'edit', :project_id => @project.id
     end
