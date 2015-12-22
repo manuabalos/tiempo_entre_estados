@@ -56,4 +56,4 @@
 <%= f.submit "Guardar", style: "float: left;" %>
 <% end %>
 
-<%= button_to "Volver", project_tee_home_path(:project_id => @project), style: "margin-left: 5px;" %>
+<%= button_to "Volver", project_tee_home_path(:project_id => @project), style: "margin-left: 5px;", :method => :get %>
