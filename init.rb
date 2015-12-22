@@ -14,7 +14,7 @@ Redmine::Plugin.register :tiempo_entre_estados do
   version '0.0.1'
   author_url 'http://www.emergya.es'
 
-  project_module :time_statuses do
+  project_module :tiempo_entre_estados do
     permission :tee_view_config, :tee => [:index]
     permission :tee_edit_statuses, :tee_prs => [:index, :create]
     permission :tee_edit_timetables, :tee_timetables => [:index, :create, :edit, :update, :destroy]

@@ -1,4 +1,9 @@
 es:
+    permission_tee_view_config: Acceder a configuración
+    permission_tee_edit_statuses: Configurar estados
+    permission_tee_edit_timetables: Configurar horarios
+    permission_tee_edit_holidays: Configurar vacaciones
+
     text_edit: "Editar"
     text_save: "Guardar"
     text_delete: "Eliminar"
