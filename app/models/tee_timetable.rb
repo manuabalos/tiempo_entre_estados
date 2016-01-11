@@ -13,6 +13,8 @@ class TeeTimetable < ActiveRecord::Base
   validate :check_roles
   validate :check_timetable_default_by_role
 
+  before_save :test
+
   # Genera mensaje de error
   def get_error_message
     error_msg = ""
@@ -201,4 +203,10 @@ class TeeTimetable < ActiveRecord::Base
       end
     end
 
+    def test
+      self.journals.each do |journal|
+         journal.start_time = journal.start_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.start_time.present?
+         journal.end_time = journal.end_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.end_time.present?
+       end
+    end
 end

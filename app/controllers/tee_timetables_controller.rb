@@ -25,10 +25,10 @@ class TeeTimetablesController < ApplicationController
 
     @timetable.roles = Role.where("id in (?)", params["roles"])
 
-     @timetable.journals.each do |journal|
-       journal.start_time = journal.start_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.start_time.present?
-       journal.end_time = journal.end_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.end_time.present?
-     end
+    # @timetable.journals.each do |journal|
+    #   journal.start_time = journal.start_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.start_time.present?
+    #   journal.end_time = journal.end_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.end_time.present?
+    # end
 
     if @timetable.save
       flash[:notice] = l(:"timetable.timetable_notice_create")
@@ -40,22 +40,23 @@ class TeeTimetablesController < ApplicationController
   end
 
   def edit
+
     @journals = @timetable.journals
 
-     #@journals.each do |journal|
-     #  journal.start_time = journal.start_time.to_datetime.in_time_zone(User.current.time_zone).to_s.to_datetime.change(:offset => "0000") if journal.start_time.present?
-     #  journal.end_time = journal.end_time.to_datetime.in_time_zone(User.current.time_zone).to_s.to_datetime.change(:offset => "0000") if journal.end_time.present?
-     #end
+     @journals.each do |journal|
+      journal.start_time = journal.start_time.to_datetime.in_time_zone(User.current.time_zone).to_s.to_datetime.change(:offset => "0000") if journal.start_time.present?
+      journal.end_time = journal.end_time.to_datetime.in_time_zone(User.current.time_zone).to_s.to_datetime.change(:offset => "0000") if journal.end_time.present?
+     end
 
     @rolestimetable = []
     @timetable.roles.collect{|role| @rolestimetable << role[:id]}
   end
 
   def update 
-    @timetable.journals.each do |journal|
-       journal.start_time = journal.start_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.start_time.present?
-       journal.end_time = journal.end_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.end_time.present?
-     end
+    # @timetable.journals.each do |journal|
+    #    journal.start_time = journal.start_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.start_time.present?
+    #    journal.end_time = journal.end_time.to_datetime.change(:offset => Time.now.in_time_zone(User.current.time_zone).strftime("%z")) if journal.end_time.present?
+    #  end
 
     old_roles = @timetable.roles.map{|r| r.id}
     roles = Role.where(:id => params[:roles])
