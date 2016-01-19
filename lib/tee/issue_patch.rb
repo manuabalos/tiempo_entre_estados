@@ -10,7 +10,7 @@ module TEE
       # Same as typing in the class
       base.class_eval do
         unloadable # Send unloadable so it will be reloaded in development
-
+        validates_presence_of :notes
       end
     end
 
@@ -25,8 +25,9 @@ module TEE
       def get_intervals
         result = []
         journals = JournalDetail.joins(:journal).select("journal_details.old_value, journal_details.value, journals.created_on AS end").where('journals.journalized_id = ? AND prop_key = ?', self.id, 'status_id')
-        zone = User.current.time_zone
-        start = self.created_on.in_time_zone(zone)
+
+        start = Issue.select('created_on AS start').find(self.id).start.to_datetime
+
         if journals.present?
           journals.each do |journal|
             result << {:status_id => journal.old_value.to_i, :start => start, :end => journal.end.to_datetime}
